@@ -1,45 +1,50 @@
 <template>
   <div class="sidebar" :class="{ 'sidebar--collapsed': isCollapsed }">
-    <!-- Logo -->
     <div class="icon_top mb-xl">
-      <img src="../assets/cyberwiseLogo.svg" alt="Cyberwise Logo" />
-      <span class="logo-text">WiseSpace</span>
+      <span class="logo-text">Tool Demo</span>
     </div>
 
-    <!-- Navigation Links -->
     <router-link to="/" class="sidebar-item">
       <img src="../assets/home.svg" alt="Home" class="icon" />
-      <span>{{ $t('home') }}</span>
+      <span>{{ $t("home") }}</span>
     </router-link>
 
     <div class="data-processing">
       <div class="sidebar-item-data">
         <router-link to="/pseudonymize" class="sidebar-item-data">
-      <img src="../assets/dataprocessing.svg" alt="Data processing" class="icon" />
-      <span>{{ $t('re-identification') }}</span>
+          <img
+            src="../assets/dataprocessing.svg"
+            alt="Data processing"
+            class="icon"
+          />
+          <span>{{ $t("re-identification") }}</span>
         </router-link>
       </div>
       <div class="sub-items">
-        <router-link to="/projects" class="sub-item">{{ $t('projects') }}</router-link>
+        <router-link to="/projects" class="sub-item">{{
+          $t("projects")
+        }}</router-link>
       </div>
     </div>
 
     <router-link to="/risk-assessment" class="sidebar-item mt-xl">
-      <img src="../assets/riskassessment.svg" alt="Risk assessment" class="icon" />
-      <span>{{ $t('riskAssessment') }}</span>
+      <img
+        src="../assets/riskassessment.svg"
+        alt="Risk assessment"
+        class="icon"
+      />
+      <span>{{ $t("riskAssessment") }}</span>
     </router-link>
 
-    <!-- Language Switcher -->
     <div class="settings-section">
       <LanguageSwitcher />
     </div>
 
-    <!-- Social Media Icons -->
     <div class="social-icons">
       <a href="https://facebook.com" target="_blank" rel="noopener">
         <img src="../assets/facebook.svg" alt="Facebook" />
       </a>
-      <a href="https://www.linkedin.com/company/cyber8wise/posts/?feedView=all" target="_blank" rel="noopener">
+      <a href="https://www.linkedin.com/" target="_blank" rel="noopener">
         <img src="../assets/linkedin.svg" alt="LinkedIn" />
       </a>
       <a href="https://instagram.com" target="_blank" rel="noopener">
@@ -50,27 +55,23 @@
       </a>
     </div>
 
-    <!-- Copyright -->
     <div class="copyright">
       © {{ currentYear }}
-      <a
-        href="https://cyberwise.space/"
-        class="copyright-link"
-        target="_blank"
-        rel="noopener"
-      >
-        CyberWise.
-      </a>
-      {{ $t('allRightsReserved') }}
+      Demo.
+      {{ $t("allRightsReserved") }}
     </div>
   </div>
 
   <!-- Mobile Sidebar Toggle -->
   <transition name="fade-move">
-  <div v-if="isCollapsed" class="topbar-settings visible" :style="topbarStyle">
-    <LanguageSwitcher />
-  </div>
-</transition>
+    <div
+      v-if="isCollapsed"
+      class="topbar-settings visible"
+      :style="topbarStyle"
+    >
+      <LanguageSwitcher />
+    </div>
+  </transition>
 
   <button
     class="mobile-toggle"
@@ -84,7 +85,7 @@
 </template>
 
 <script>
-import LanguageSwitcher from '../components/globals/LanguageSwitcher.vue';
+import LanguageSwitcher from "../components/globals/LanguageSwitcher.vue";
 
 const sidebarWidth = 450; // Width of the sidebar in pixels
 export default {
@@ -93,7 +94,7 @@ export default {
   data() {
     return {
       isCollapsed: false,
-      currentYear: new Date().getFullYear()
+      currentYear: new Date().getFullYear(),
     };
   },
   computed: {
@@ -102,19 +103,19 @@ export default {
 
       if (window.innerWidth < 768) {
         // Mobile: full-screen sidebar
-        return { right: '2rem' };
+        return { right: "2rem" };
       } else {
         // Tablet: sidebar takes ~66%
-        return { right: '42vw' };
+        return { right: "42vw" };
       }
-    }
+    },
   },
   watch: {
-    '$route'() {
+    $route() {
       if (window.innerWidth < 950) {
         this.isCollapsed = false;
       }
-    }
+    },
   },
   methods: {
     toggleSidebar() {
@@ -124,18 +125,17 @@ export default {
       if (window.innerWidth < 950) {
         this.isCollapsed = false;
       }
-    }
+    },
   },
   mounted() {
     this.checkWidth();
-    window.addEventListener('resize', this.checkWidth);
+    window.addEventListener("resize", this.checkWidth);
   },
   beforeUnmount() {
-    window.removeEventListener('resize', this.checkWidth);
-  }
-};  
+    window.removeEventListener("resize", this.checkWidth);
+  },
+};
 </script>
-
 
 <style scoped lang="scss">
 $sidebar-collapse-breakpoint: 950px;
@@ -145,7 +145,7 @@ $sidebar-collapse-breakpoint: 950px;
   flex-direction: column;
   align-items: stretch;
   padding: 24px 20px;
-  background: linear-gradient(180deg, #3865F2 39%, #161C60 100%);
+  background: linear-gradient(180deg, #3865f2 39%, #161c60 100%);
   height: 100vh;
   width: 450px;
   position: fixed;
@@ -219,7 +219,7 @@ $sidebar-collapse-breakpoint: 950px;
 
     &::before,
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       width: 100%;
       height: 100%;
@@ -277,7 +277,7 @@ $sidebar-collapse-breakpoint: 950px;
   }
 
   .logo-text {
-    font-family: 'Montserrat', sans-serif;
+    font-family: "Montserrat", sans-serif;
     font-size: 54px;
     color: white;
     text-shadow: 0px 0px 10px rgba(56, 101, 242, 0.5);
@@ -330,7 +330,7 @@ $sidebar-collapse-breakpoint: 950px;
 }
 
 .section-title {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 24px;
   color: white;
   margin-bottom: 15px;
@@ -354,7 +354,7 @@ $sidebar-collapse-breakpoint: 950px;
 }
 
 .sub-item {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 28px;
   font-weight: 600;
   color: white;
@@ -367,7 +367,7 @@ $sidebar-collapse-breakpoint: 950px;
   }
 
   &::before {
-    content: '\2022';
+    content: "\2022";
     font-size: 18px;
     margin-right: 10px;
     color: white;
@@ -385,7 +385,7 @@ $sidebar-collapse-breakpoint: 950px;
   position: fixed;
 
   @media (max-width: #{$sidebar-collapse-breakpoint}) {
-    display: none; 
+    display: none;
   }
 }
 
@@ -396,7 +396,7 @@ $sidebar-collapse-breakpoint: 950px;
   transition: all 0.8s ease-in-out;
 
   @media (min-width: #{$sidebar-collapse-breakpoint}) {
-    display: none; 
+    display: none;
   }
 }
 
@@ -455,7 +455,6 @@ $sidebar-collapse-breakpoint: 950px;
   }
 }
 
-
 .copyright {
   position: fixed;
   bottom: 30px;
@@ -464,7 +463,7 @@ $sidebar-collapse-breakpoint: 950px;
   font-size: 18px;
   color: rgba(255, 255, 255, 0.7);
   text-align: center;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   border-top: 2px solid rgba(255, 255, 255, 0.1);
 
   @media (max-width: #{$sidebar-collapse-breakpoint}) {

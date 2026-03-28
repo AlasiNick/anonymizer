@@ -4,7 +4,6 @@
       <h1>Risk Assessment</h1>
       <div class="risk-assessment-container">
         <p>Welcome to the Risk Assessment tool. This feature is coming soon.</p>
-        <!-- Add your risk assessment content here -->
       </div>
     </div>
   </BaseLayout>
@@ -22,13 +21,15 @@ export default {
 </script>
 
 <style lang="scss">
-@use '../styles/variables' as v;
-@use '../styles/mixins' as m;
+@use "../styles/variables" as v;
+@use "../styles/mixins" as m;
 
 .risk-assessment-content {
   @include m.flex-column;
   @include m.container;
-  align-items: center;
+  & {
+    align-items: center;
+  }
 
   @include m.mobile {
     margin-top: v.$spacing-lg;
@@ -66,4 +67,4 @@ export default {
     text-align: center;
   }
 }
-</style> 
+</style>
