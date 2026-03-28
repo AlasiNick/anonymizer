@@ -1,5 +1,5 @@
-package deidentification.api;
-import deidentification.api.service.DeIdentificationService;
+package deidentification.arx;
+import deidentification.arx.service.DeIdentificationService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 

@@ -1,6 +1,5 @@
-package deidentification.api.service;
+package deidentification.arx.service;
 
-import org.deidentifier.arx.aggregates.HierarchyBuilderRedactionBased;
 import org.springframework.stereotype.Service;
 import org.deidentifier.arx.*;
 import org.deidentifier.arx.criteria.KAnonymity;
