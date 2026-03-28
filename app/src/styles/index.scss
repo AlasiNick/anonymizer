@@ -1,0 +1,19 @@
+@use 'sass:color';
+@use './variables' as v;
+@use './mixins' as m;
+@use './utilities' as u;
+@use './components' as c;
+
+@forward './variables';
+@forward './mixins';
+@forward './utilities';
+@forward './components';
+
+// Global styles
+body {
+  font-family: v.$primary-font;
+  font-size: v.$font-size-base;
+  color: v.$text-color;
+  margin: 0;
+  padding: 0;
+} 

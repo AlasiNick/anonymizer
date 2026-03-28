@@ -1,0 +1,77 @@
+@use 'variables' as *;
+
+// Layout mixins
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+// Responsive mixins
+@mixin mobile {
+  @media (max-width: map-get($breakpoints, 'sm')) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (max-width: map-get($breakpoints, 'md')) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: map-get($breakpoints, 'lg')) {
+    @content;
+  }
+}
+
+@mixin hide-on-mobile {
+  @include mobile {
+    display: none;
+  }
+}
+
+@mixin show-on-mobile {
+  display: none;
+  @include mobile {
+    display: block;
+  }
+}
+
+// Component mixins
+@mixin sidebar-item {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: $white;
+  font-size: $font-size-lg;
+  font-weight: bold;
+  margin-bottom: $spacing-md;
+
+  @include mobile {
+    font-size: $font-size-md;
+  }
+}
+
+@mixin container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 $spacing-lg;
+
+  @include mobile {
+    padding: 0 $spacing-md;
+  }
+}
+
+@mixin respond-to($breakpoint) {
+  @media (min-width: map-get($breakpoints, $breakpoint)) {
+    @content;
+  }
+} 

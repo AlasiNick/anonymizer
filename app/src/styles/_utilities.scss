@@ -1,0 +1,13 @@
+@use 'variables' as *;
+
+.mb-xxl {
+  margin-bottom: $spacing-xxl;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.bold-text {
+  font-weight: bold;
+} 

@@ -1,0 +1,33 @@
+// Colors
+$primary-color: #3865F2;
+$secondary-color: #161C60;
+$background-color: #F5F5F5;
+$white: #FFFFFF;
+$gray: #CCCCCC;
+$text-color: #333333;
+
+// Font families
+$primary-font: 'Montserrat', sans-serif;
+$secondary-font: 'Arial', sans-serif;
+
+// Font sizes
+$font-size-base: 16px;
+$font-size-lg: 24px;
+$font-size-md: 18px;
+$font-size-sm: 14px;
+
+// Spacing
+$spacing-xs: 5px;
+$spacing-sm: 10px;
+$spacing-md: 15px;
+$spacing-lg: 20px;
+$spacing-xl: 40px;
+$spacing-xxl: 50px;
+
+// Breakpoints
+$breakpoints: (
+  'sm': 576px,
+  'md': 768px,
+  'lg': 992px,
+  'xl': 1200px
+); 
