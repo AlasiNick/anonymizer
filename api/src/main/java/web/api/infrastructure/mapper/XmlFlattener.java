@@ -24,15 +24,21 @@ public class XmlFlattener {
             "author", "custodian", "representedOrganization", "assignedCustodian",
             "assignedPerson", "patientPerson", "as", "of", "entryRelationship"
     );
+    
+    private static final Map<String, String> CONTEXT_ANCHORS = Map.of(
+            "recordTarget",   "patient",
+            "patientRole",    "patient",
+            "patientPerson",  "patient",
+            "assignedAuthor", "author",
+            "assignedPerson", "author",
+            "custodian",      "custodian",
+            "assignedCustodian", "custodian",
+            "representedOrganization",         "organization",
+            "representedCustodianOrganization","organization",
+            "encompassingEncounter", "encounter"
+    );
 
     private static final Map<String, String> SEGMENT_ALIASES = Map.ofEntries(
-            Map.entry("recordTarget", "patient"),
-            Map.entry("patientRole", "patient"),
-            Map.entry("patientPerson", "patient"),
-            Map.entry("assignedPerson", "person"),
-            Map.entry("assignedAuthor", "author"),
-            Map.entry("representedOrganization", "organization"),
-            Map.entry("representedCustodianOrganization", "organization"),
             Map.entry("addr", "address"),
             Map.entry("name", "name"),
             Map.entry("given", "given"),
@@ -53,17 +59,23 @@ public class XmlFlattener {
     public List<FlattenedField> flatten(Document document) {
         List<FlattenedField> fields = new ArrayList<>();
         Element root = document.getDocumentElement();
-        flattenNode(root, "", "", fields);
+        flattenNode(root, "", "", "", fields);  // added contextPrefix param
         System.out.println("Total fields flattened: " + fields.size());
         return fields;
     }
 
-    private void flattenNode(Node node, String originalPath, String cleanPath, List<FlattenedField> fields) {
+    private void flattenNode(Node node, String originalPath, String cleanPath,
+                             String contextPrefix, List<FlattenedField> fields) {
         if (node.getNodeType() != Node.ELEMENT_NODE) return;
 
         String nodeName = sanitizeNodeName(node.getNodeName());
         String newOriginal = buildPath(originalPath, nodeName);
-        String newClean = cleanPathsEnabled ? buildCleanPath(cleanPath, nodeName) : newOriginal;
+
+        String newContext = CONTEXT_ANCHORS.getOrDefault(nodeName, contextPrefix);
+
+        String newClean = cleanPathsEnabled
+                ? buildCleanPath(cleanPath, nodeName, newContext)
+                : newOriginal;
 
         List<Node> children = collectElementChildren(node);
 
@@ -86,28 +98,39 @@ public class XmlFlattener {
             int idx = counter.merge(childName, 1, Integer::sum);
 
             String childOriginal = buildPath(newOriginal, childName);
-            String childClean = cleanPathsEnabled ? buildCleanPath(newClean, childName) : childOriginal;
+            String childContext = CONTEXT_ANCHORS.getOrDefault(childName, newContext);
+            String childClean = cleanPathsEnabled
+                    ? buildCleanPath(newClean, childName, childContext)
+                    : childOriginal;
 
             if (idx > 1) {
                 childClean += "_" + idx;
             }
 
-            flattenNode(child, childOriginal, childClean, fields);
+            flattenNode(child, childOriginal, childClean, childContext, fields);
         }
     }
 
-    private String buildCleanPath(String current, String nodeName) {
+    private String buildCleanPath(String current, String nodeName, String contextPrefix) {
         if (NOISE_SEGMENTS.contains(nodeName)) {
+            if (CONTEXT_ANCHORS.containsKey(nodeName)) {
+                String ctx = CONTEXT_ANCHORS.get(nodeName);
+                if (!current.equals(ctx) && !current.endsWith("_" + ctx)) {
+                    return current.isBlank() ? ctx : current + "_" + ctx;
+                }
+            }
             return current;
         }
 
         String segment = SEGMENT_ALIASES.getOrDefault(nodeName, nodeName);
 
-        if (current.isBlank()) return segment;
+        if (current.isBlank()) {
+            return contextPrefix.isBlank() ? segment : contextPrefix + "_" + segment;
+        }
 
         String last = getLastSegment(current);
         if (last.equals(segment) || last.equals(nodeName)) {
-            return current;   // prevent duplication
+            return current;
         }
 
         return current + "_" + segment;
