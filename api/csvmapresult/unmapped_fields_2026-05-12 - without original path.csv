@@ -22,12 +22,9 @@ title,Lõplik kliiniline diagnoos,NARRATIVE,NO
 text_paragraph_content,Põhidiagnoos: E12.3 Diagnoosi nimi.,NARRATIVE,NO
 value_originalText,Diagnoosi nimi,NARRATIVE,NO
 _2_title,"Anamnees, diagnoosi põhjendus ja haiguse kulg",NARRATIVE,NO
-_2_text_paragraph_content,"25.11.2009 - Doktooriga tehtud tekst mis selgitab mis juhtus. Sama nagu emal, Jane Doe i.k. 12345678901",NARRATIVE,NO
 _2_text_list_item_caption,Anamnees,NARRATIVE,NO
 _2_text_list_item_content,25.11.2009 - Täpsustav tekst.,NARRATIVE,NO
 _3_title,Kokkuvõte patsiendi ravist,NARRATIVE,NO
-_3_text_paragraph_content,"Ravi: 01.12.2009 - Konkreetiseerimine mis juhtus ja toimub, vajalik sammud et haigusega tegeleda, soovitused, järmise visiidi soovitus ja veel mingi info, mille sees midagi saab olla. Tagasi tulemiseks 8 kuud. Sama nagu abikaasal Kristi Tamm i.k. 09876543212
-.",NARRATIVE,NO
 _4_title,Analüüsid,NARRATIVE,NO
 _4_text_table_header_row_headerCell,Analüüs,NARRATIVE,NO
 _4_text_table_header_row_headerCell_2_headerCell,Parameeter,NARRATIVE,NO
