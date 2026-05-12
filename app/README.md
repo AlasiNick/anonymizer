@@ -27,16 +27,18 @@ pnpm dev
 # Page Preview:
 
 ## Main Page:
-| English Version | Estonian Version |
-|-----------------|------------------|
-| ![EN](photos/main_page.png) | ![EST](photos/main_page_est.png) |
 
+| English Version             | Estonian Version                 |
+| --------------------------- | -------------------------------- |
+| ![EN](photos/main_page.png) | ![EST](photos/main_page_est.png) |
 
 ## Pseudonymization Page:
 
-| PC View | Tablet View |
-|--------|-------------|
-| ![PC](photos/pseudonym.png) | ![Tablet](photos/pseudonym_tablet.png) |
+![Anonymization Page No File](photos/anonym_page_nofile.png)
+
+## Pseudonymization Page:
+
+![Anonymization Page With File](photos/anonym_page_file.png)
 
 ## Project Page:
 

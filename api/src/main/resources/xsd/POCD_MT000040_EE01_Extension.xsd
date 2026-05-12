@@ -1,0 +1,356 @@
+<?xml version="1.0"?>
+<!-- HL7 standardi laiendamiseks vajalikud vaheklassid koos konkreetse näitega.
+	Jan Jasinski 22.06.2007
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ext="urn:hl7-EE-DL-Ext:v1" xmlns="urn:hl7-EE-DL-Ext:v1" targetNamespace="urn:hl7-EE-DL-Ext:v1" elementFormDefault="qualified" attributeFormDefault="qualified">
+	<!-- kasutatakse standardseid HL7 andmetüüpe ja kodeerimissüsteeme -->
+	<xs:include schemaLocation="../xsd/coreschemas/datatypes.xsd"/>
+	<xs:include schemaLocation="../xsd/coreschemas/voc.xsd"/>
+	<xs:include schemaLocation="PRPA_MT201102UV01_EE01.xsd"/>
+	<xs:include schemaLocation="COCT_MT030200UV04_EE01.xsd"/>
+	<xs:include schemaLocation="COCT_MT010000UV01_EE01.xsd"/>
+	<xs:include schemaLocation="COCT_MT090000UV01_EE01.xsd"/>
+	<xs:include schemaLocation="COCT_MT530004UV_EE01.xsd"/>
+	<xs:include schemaLocation="COCT_MT080100_EE01.xsd"/>
+	<xs:include schemaLocation="COCT_MT120500_EE01.xsd"/>
+	<!-- HL7 EMPLOYMENT LAIENDAMISE ELEMENDI ALGUS-->
+	<xs:element name="asEmployment">
+		<xs:annotation>
+			<xs:documentation>
+				asEmployment HL7 skeemade laiendamiseks.
+
+				asEmployment omab täiendavaid atribuute:
+				HL7-Domain - HL7 domeen, kust sõnum pärineb, millega
+				standardit laiendatakse HL7-ClassName - põhiobjekti
+				classCode, mida kasutatakse realmCode="EE" -
+				kasutusvaldkonna määrang, Eesti sisene kasutamine
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="POCD_MT00040_EE01_Extension.COCT_MT030200UV04.Employment"/>
+				<!-- HL7 laiendamise vaheklass-->
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<!-- HL7 EMPLOYMENT LAIENDAMISE ELEMENDI LÕPP-->
+	<!-- HL7 EMPLOYMENT LAIENDAMISE TÜÜBI ALGUS-->
+	<xs:complexType name="POCD_MT00040_EE01_Extension.COCT_MT030200UV04.Employment">
+		<xs:complexContent>
+			<xs:extension base="COCT_MT030200UV04.Employment">
+				<xs:attribute name="HL7-Domain" fixed="PRPA_RM000000"/>
+				<xs:attribute name="HL7-ClassName" fixed="EMP"/>
+				<xs:attribute name="realmCode" fixed="EE"/>
+			</xs:extension>
+			<!-- HL7 domeen, millest laiendus on pärit-->
+			<!-- põhiklassi kood-->
+			<!-- valdkonna täpsustus-->
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- HL7 EMPLOYMENT LAIENDAMISE TÜÜBI LÕPP-->
+	<!-- HL7 PERSON LAIENDAMISE ELEMENDI ALGUS-->
+	<xs:element name="patientPerson">
+		<xs:annotation>
+			<xs:documentation>
+				patientPerson HL7 skeemade laiendamiseks.
+
+				patientPerson omab täiendavaid atribuute:
+				HL7-Domain - HL7 domeen, kust sõnum pärineb, millega
+				standardit laiendatakse HL7-ClassName - põhiobjekti
+				classCode, mida kasutatakse realmCode="EE" -
+				kasutusvaldkonna määrang, Eesti sisene kasutamine
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="POCD_MT00040_EE01_Extension.COCT_MT030200UV04.Person"/>
+				<!-- HL7 laiendamise vaheklass-->
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<!-- HL7 PERSON LAIENDAMISE ELEMENDI LÕPP-->
+	<!-- HL7 PERSON LAIENDAMISE TÜÜBI ALGUS-->
+	<xs:complexType name="POCD_MT00040_EE01_Extension.COCT_MT030200UV04.Person">
+		<xs:complexContent>
+			<xs:extension base="COCT_MT030200UV04.Person">
+				<xs:attribute name="HL7-Domain" fixed="PRPA_RM000000"/>
+				<xs:attribute name="HL7-ClassName" fixed="PSN"/>
+				<xs:attribute name="realmCode" fixed="EE"/>
+			</xs:extension>
+			<!-- HL7 domeen, millest laiendus on pärit-->
+			<!-- põhiklassi kood-->
+			<!-- valdkonna täpsustus-->
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- HL7 PERSON LAIENDAMISE TÜÜBI LÕPP-->
+	<!-- HL7 PATIENT-OF-OTHER-PROVIDER LAIENDAMISE ELEMENDI ALGUS-->
+	<xs:element name="asPatientOfOtherProvider">
+		<xs:annotation>
+			<xs:documentation>
+				asPatientOfOtherProvider HL7 skeemade laiendamiseks.
+
+				asPatientOfOtherProvider omab täiendavaid atribuute:
+				HL7-Domain - HL7 domeen, kust sõnum pärineb, millega
+				standardit laiendatakse HL7-ClassName - põhiobjekti
+				classCode, mida kasutatakse realmCode="EE" -
+				kasutusvaldkonna määrang, Eesti sisene kasutamine
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="POCD_MT00040_EE01_Extension.PRPA_MT201102UV01.PatientOfOtherProvider"/>
+				<!-- HL7 laiendamise vaheklass-->
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<!-- HL7 PATIENT-OF-OTHER-PROVIDER LAIENDAMISE ELEMENDI LÕPP-->
+	<!-- HL7 PATIENT-OF-OTHER-PROVIDER LAIENDAMISE TÜÜBI ALGUS-->
+	<xs:complexType name="POCD_MT00040_EE01_Extension.PRPA_MT201102UV01.PatientOfOtherProvider">
+		<xs:complexContent>
+			<xs:extension base="PRPA_MT201102UV01.PatientOfOtherProvider">
+				<xs:attribute name="HL7-Domain" fixed="PRPA_RM000000"/>
+				<xs:attribute name="HL7-ClassName" fixed="PAT"/>
+				<xs:attribute name="realmCode" fixed="EE"/>
+			</xs:extension>
+			<!-- HL7 domeen, millest laiendus on pärit-->
+			<!-- põhiklassi kood-->
+			<!-- valdkonna täpsustus-->
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- HL7 PATIENT-OF-OTHER-PROVIDER LAIENDAMISE TÜÜBI LÕPP-->
+	<!-- HL7 LICENCED-ENTITY LAIENDAMISE ELEMENDI ALGUS-->
+	<xs:element name="asLicencedEntity">
+		<xs:annotation>
+			<xs:documentation>
+				asLicencedEntity HL7 skeemade laiendamiseks.
+
+				asLicencedEntity omab täiendavaid atribuute:
+				HL7-Domain - HL7 domeen, kust sõnum pärineb, millega
+				standardit laiendatakse HL7-ClassName - põhiobjekti
+				classCode, mida kasutatakse realmCode="EE" -
+				kasutusvaldkonna määrang, Eesti sisene kasutamine
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="POCD_MT00040_EE01_Extension.COCT_MT090000UV01.LicensedEntity"/>
+				<!-- HL7 laiendamise vaheklass-->
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<!-- HL7 LICENCED-ENTITY  LAIENDAMISE ELEMENDI LÕPP-->
+	<!-- HL7 LICENCED-ENTITY  LAIENDAMISE TÜÜBI ALGUS-->
+	<xs:complexType name="POCD_MT00040_EE01_Extension.COCT_MT090000UV01.LicensedEntity">
+		<xs:complexContent>
+			<xs:extension base="COCT_MT090000UV01.LicensedEntity">
+				<xs:attribute name="HL7-Domain" fixed="PRPM_RM000000"/>
+				<xs:attribute name="HL7-ClassName" fixed="LIC"/>
+				<xs:attribute name="realmCode" fixed="EE"/>
+			</xs:extension>
+			<!-- HL7 domeen, millest laiendus on pärit-->
+			<!-- põhiklassi kood-->
+			<!-- valdkonna täpsustus-->
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- HL7 LICENCED-ENTITY LAIENDAMISE TÜÜBI LÕPP-->
+	<!-- HL7 ENCOUNTER LAIENDAMISE ELEMENDI ALGUS-->
+	<xs:element name="encounter">
+		<xs:annotation>
+			<xs:documentation>
+				encounter HL7 skeemade laiendamiseks.
+
+				encounter omab täiendavaid atribuute:
+				HL7-Domain - HL7 domeen, kust sõnum pärineb, millega
+				standardit laiendatakse HL7-ClassName - põhiobjekti
+				classCode, mida kasutatakse realmCode="EE" -
+				kasutusvaldkonna määrang, Eesti sisene kasutamine
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="POCD_MT00040_EE01_Extension.COCT_MT010000UV01.Encounter"/>
+				<!-- HL7 laiendamise vaheklass-->
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<!-- HL7 ENCOUNTER  LAIENDAMISE ELEMENDI LÕPP-->
+	<!-- HL7 ENCOUNTER  LAIENDAMISE TÜÜBI ALGUS-->
+	<xs:complexType name="POCD_MT00040_EE01_Extension.COCT_MT010000UV01.Encounter">
+		<xs:complexContent>
+			<xs:extension base="COCT_MT010000UV01.Encounter">
+				<xs:attribute name="HL7-Domain" fixed="PRPA_RM000000"/>
+				<xs:attribute name="HL7-ClassName" fixed="ENC"/>
+				<xs:attribute name="realmCode" fixed="EE"/>
+			</xs:extension>
+			<!-- HL7 domeen, millest laiendus on pärit-->
+			<!-- põhiklassi kood-->
+			<!-- valdkonna täpsustus-->
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- HL7 ENCOUNTER LAIENDAMISE TÜÜBI LÕPP-->
+	<!-- HL7 PERSON LAIENDAMISE ELEMENDI ALGUS-->
+	<xs:element name="asObserved">
+		<xs:annotation>
+			<xs:documentation>
+				asObserved HL7 skeemade laiendamiseks.
+
+				asObserved omab täiendavaid atribuute:
+				HL7-Domain - HL7 domeen, kust sõnum pärineb, millega
+				standardit laiendatakse HL7-ClassName - põhiobjekti
+				classCode, mida kasutatakse realmCode="EE" -
+				kasutusvaldkonna määrang, Eesti sisene kasutamine
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="POCD_MT00040_EE01_Extension.COCT_MT530004UV.SourceOf2"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="POCD_MT00040_EE01_Extension.COCT_MT530004UV.SourceOf2">
+		<xs:complexContent>
+			<xs:extension base="COCT_MT530004UV.SourceOf2">
+				<xs:attribute name="HL7-Domain" fixed="RCMR_RM000000"/>
+				<xs:attribute name="HL7-ClassName" fixed="PSN"/>
+				<xs:attribute name="realmCode" fixed="EE"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!--HL7 PERSON LAIENDAMISE TÜÜBI LÕPP-->
+	<!-- HL7 SPECIMEN LAIENDAMISE ELEMENDI ALGUS-->
+	<xs:element name="specimen">
+		<xs:annotation>
+			<xs:documentation>
+				specimen HL7 skeemade laiendamiseks.
+
+				specimen omab täiendavaid atribuute:
+				HL7-Domain - HL7 domeen, kust sõnum pärineb, millega
+				standardit laiendatakse HL7-ClassName - põhiobjekti
+				classCode, mida kasutatakse realmCode="EE" -
+				kasutusvaldkonna määrang, Eesti sisene kasutamine
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="POCD_MT00040_EE01_Extension.COCT_MT080100.Specimen"/>
+				<!-- HL7 laiendamise vaheklass-->
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<!-- HL7 SPECIMEN  LAIENDAMISE ELEMENDI LÕPP-->
+	<!-- HL7 SPECIMEN  LAIENDAMISE TÜÜBI ALGUS-->
+	<xs:complexType name="POCD_MT00040_EE01_Extension.COCT_MT080100.Specimen">
+		<xs:complexContent>
+			<xs:extension base="COCT_MT080100.Specimen">
+				<xs:attribute name="HL7-Domain" fixed="COCT_RM080100"/>
+				<xs:attribute name="HL7-ClassName" fixed="SPEC"/>
+				<xs:attribute name="realmCode" fixed="EE"/>
+			</xs:extension>
+			<!-- HL7 domeen, millest laiendus on pärit-->
+			<!-- põhiklassi kood-->
+			<!-- valdkonna täpsustus-->
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- HL7 SPECIMEN LAIENDAMISE TÜÜBI LÕPP-->
+	<!-- HL7 REFERENCERANGE LAIENDAMISE ELEMENDI ALGUS-->
+	<xs:element name="precondition">
+		<xs:annotation>
+			<xs:documentation>
+				precondition HL7 skeemade laiendamiseks.
+
+				precondition omab täiendavaid atribuute:
+				HL7-Domain - HL7 domeen, kust sõnum pärineb, millega
+				standardit laiendatakse HL7-ClassName - põhiobjekti
+				classCode, mida kasutatakse realmCode="EE" -
+				kasutusvaldkonna määrang, Eesti sisene kasutamine
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="POCD_MT00040_EE01_Extension.COCT_MT120500.Precondition"/>
+				<!-- HL7 laiendamise vaheklass-->
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<!-- HL7 REFERENCERANGE  LAIENDAMISE ELEMENDI LÕPP-->
+	<!-- HL7 REFERENCERANGE  LAIENDAMISE TÜÜBI ALGUS-->
+	<xs:complexType name="POCD_MT00040_EE01_Extension.COCT_MT120500.Precondition">
+		<xs:complexContent>
+			<xs:extension base="COCT_MT120500.Precondition">
+				<xs:attribute name="HL7-Domain" fixed="COCT_RM120500"/>
+				<xs:attribute name="HL7-ClassName" fixed="PRCN"/>
+				<xs:attribute name="realmCode" fixed="EE"/>
+			</xs:extension>
+			<!-- HL7 domeen, millest laiendus on pärit-->
+			<!-- põhiklassi kood-->
+			<!-- valdkonna täpsustus-->
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- HL7 REFERENCERANGE LAIENDAMISE TÜÜBI LÕPP-->
+	<!-- HL7 REFERENCERANGE LAIENDAMISE ELEMENDI ALGUS-->
+	<xs:element name="statusCode">
+		<xs:annotation>
+			<xs:documentation>
+				precondition HL7 skeemade laiendamiseks.
+
+				precondition omab täiendavaid atribuute:
+				HL7-Domain - HL7 domeen, kust sõnum pärineb, millega
+				standardit laiendatakse HL7-ClassName - põhiobjekti
+				classCode, mida kasutatakse realmCode="EE" -
+				kasutusvaldkonna määrang, Eesti sisene kasutamine
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="POCD_MT00040_EE01_Extension.statusCode"/>
+				<!-- HL7 laiendamise vaheklass-->
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<!-- HL7 REFERENCERANGE  LAIENDAMISE ELEMENDI LÕPP-->
+	<!-- HL7 REFERENCERANGE  LAIENDAMISE TÜÜBI ALGUS-->
+	<xs:complexType name="POCD_MT00040_EE01_Extension.statusCode">
+		<xs:sequence>
+			<xs:group ref="InfrastructureRootElements"/>
+			<xs:element name="statusCode" type="CS" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="InfrastructureRootAttributes"/>
+		<xs:attribute name="code" type="ext:ActStatus" use="optional"/>
+	</xs:complexType>
+	<!-- HL7 REFERENCERANGE LAIENDAMISE TÜÜBI LÕPP-->
+	<!-- HL7 REFERENCERANGE LAIENDAMISE ELEMENDI ALGUS-->
+	<xs:element name="completionCode">
+		<xs:annotation>
+			<xs:documentation>
+				precondition HL7 skeemade laiendamiseks.
+
+				precondition omab täiendavaid atribuute:
+				HL7-Domain - HL7 domeen, kust sõnum pärineb, millega
+				standardit laiendatakse HL7-ClassName - põhiobjekti
+				classCode, mida kasutatakse realmCode="EE" -
+				kasutusvaldkonna määrang, Eesti sisene kasutamine
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="POCD_MT00040_EE01_Extension.completionCode"/>
+				<!-- HL7 laiendamise vaheklass-->
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<!-- HL7 REFERENCERANGE  LAIENDAMISE ELEMENDI LÕPP-->
+	<!-- HL7 REFERENCERANGE  LAIENDAMISE TÜÜBI ALGUS-->
+	<xs:complexType name="POCD_MT00040_EE01_Extension.completionCode">
+		<xs:sequence>
+			<xs:group ref="InfrastructureRootElements"/>
+			<xs:element name="completionCode" type="CE" minOccurs="0"/>
+			<xs:sequence>
+				<xs:element name="originalText" type="ED" minOccurs="0"/>
+			</xs:sequence>
+		</xs:sequence>
+		<xs:attributeGroup ref="InfrastructureRootAttributes"/>
+		<xs:attribute name="code" use="optional"/>
+		<xs:attribute name="codeSystem" use="optional"/>
+	</xs:complexType>
+	<!-- HL7 REFERENCERANGE LAIENDAMISE TÜÜBI LÕPP-->
+</xs:schema>

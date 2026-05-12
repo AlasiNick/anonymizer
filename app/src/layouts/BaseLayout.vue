@@ -1,24 +1,21 @@
 <template>
   <div class="base-layout">
-    <Sidebar />
+    <div class="settings-section">
+      <LanguageSwitcher />
+    </div>
     <main class="content">
-      <div class="avatar-container">
-        <UIAvatar username="Nick A" size="md" />
-      </div>
-      <slot></slot> <!-- renders the page-specific content -->
+      <slot></slot>
     </main>
   </div>
 </template>
 
 <script>
-import Sidebar from './Sidebar.vue';
-import UIAvatar from '../components/globals/UIAvatar.vue';
+import LanguageSwitcher from "../components/globals/LanguageSwitcher.vue";
 
 export default {
-  name: 'BaseLayout',
+  name: "BaseLayout",
   components: {
-    Sidebar,
-    UIAvatar
+    LanguageSwitcher,
   },
 };
 </script>
@@ -27,33 +24,17 @@ export default {
 .base-layout {
   display: flex;
   min-height: 100vh;
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
   position: relative;
 }
 
 .content {
   flex-grow: 1;
-  margin-left: 450px;
-  padding: 40px;
+  padding: 60px 160px 60px 160px;
   padding-top: 80px;
-  min-height: 100vh;
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
   transition: all 0.3s ease;
   position: relative;
-  z-index: 1;
-  width: calc(100% - 450px);
-
-  @media (max-width: 950px) {
-    margin-left: 0;
-    width: 100%;
-    padding: 30px;
-    padding-top: 70px;
-
-    .sidebar--collapsed & {
-      margin-left: 300px;
-      width: calc(100% - 300px);
-    }
-  }
 }
 
 .avatar-container {
@@ -66,5 +47,14 @@ export default {
     right: 20px;
     top: 15px;
   }
+}
+
+.settings-section {
+  position: fixed;
+  top: 20px;
+  right: 40px;
+  z-index: 10;
+  display: flex;
+  justify-content: flex-end;
 }
 </style>

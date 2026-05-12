@@ -4,45 +4,44 @@
     <h2>{{ title }}</h2>
     <p>{{ description }}</p>
     <label :for="inputId" class="sr-only">{{ labelText }}</label>
-    <input 
-      type="file" 
+    <input
+      type="file"
       :id="inputId"
-      class="file-input" 
-      @change="$emit('file-upload', $event)" 
-      multiple
+      class="file-input"
+      @change="$emit('file-upload', $event)"
       :aria-label="labelText"
       :title="labelText"
     />
     <button class="upload-btn" @click="$emit('trigger-upload')">
       <span class="icon">+</span>
-      Select Files
+      Add File
     </button>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'UploadCard',
+  name: "UploadCard",
   props: {
     title: {
       type: String,
-      default: 'Upload Your Data'
+      default: "Upload Your 1 File",
     },
     description: {
       type: String,
-      default: 'Drag and drop your files here or click to browse'
+      default: "Drag and drop your file here or click to browse",
     },
     labelText: {
       type: String,
-      default: 'Choose files'
+      default: "Choose file",
     },
     inputId: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
-  emits: ['file-upload', 'trigger-upload']
-}
+  emits: ["file-upload", "trigger-upload"],
+};
 </script>
 
 <style lang="scss" scoped>
@@ -51,11 +50,11 @@ export default {
   border-radius: 16px;
   padding: 40px;
   text-align: center;
-  border: 2px dashed #E0E0E0;
+  border: 2px dashed #e0e0e0;
   transition: all 0.3s ease;
 
   &:hover {
-    border-color: #3865F2;
+    border-color: #3865f2;
   }
 
   .upload-icon {
@@ -85,7 +84,7 @@ export default {
 }
 
 .upload-btn {
-  background: #3865F2;
+  background: #3865f2;
   color: white;
   border: none;
   border-radius: 8px;
@@ -99,7 +98,7 @@ export default {
   transition: all 0.3s ease;
 
   &:hover {
-    background: #2851D8;
+    background: #2851d8;
     transform: translateY(-2px);
   }
 

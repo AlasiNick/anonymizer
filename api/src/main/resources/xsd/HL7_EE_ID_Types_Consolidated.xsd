@@ -1,0 +1,1369 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  HL7 EE Consolidated ID Types Schema
+  ====================================
+  This schema consolidates all complex types that contain
+  <xs:element name="id" type="II" .../>
+  collected from the following source schemas:
+
+    1. COCT_MT090000UV.xsd
+    2. PRPA_MT201307UV.xsd
+    3. PRPA_MT201303EE.xsd
+    4. COCT_MT030203UV02.xsd
+    5. COCT_MT030200UV.xsd
+    6. COCT_MT030202UV01.xsd
+    7. COCT_MT010000UV01.xsd  (COCT_MT010000UV01.Encounter, Location1, Attender, Admitter, etc.)
+    8. COCT_MT530000UV.xsd
+    9. COCT_MT080000UV.xsd
+   10. COCT_MT120100UV.xsd
+   11. POCD_MT00040_EE01_Extension.xsd (asEmployment, asLicencedEntity, etc.)
+
+  Usage:
+    Include or import this file in your working schema, then reference
+    type names such as "EE_IdTypes.COCT_MT090000UV.AssignedEntity" etc.
+
+  All types use the urn:hl7-org:v3 target namespace to match source schemas.
+
+  Note: This schema requires coreschemas (infrastructureRoot.xsd, datatypes.xsd)
+  to be available at the relative paths used in the original schemas.
+-->
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="urn:hl7-org:v3"
+  elementFormDefault="qualified"
+  xmlns="urn:hl7-org:v3">
+
+  <!-- ============================================================
+       CORE INFRASTRUCTURE INCLUDES
+       Adjust paths to match your project layout.
+       ============================================================ -->
+  <xs:include schemaLocation="../xsd/coreschemas/infrastructureRoot.xsd"/>
+  <xs:include schemaLocation="/xsd/coreschemas/NarrativeBlock.xsd"/>
+
+  <!-- ============================================================
+       SOURCE: COCT_MT090000UV.xsd
+       Types with id of type II:
+         - AssignedEntity      (id minOccurs=0 maxOccurs=unbounded)
+         - Device              (id minOccurs=0 maxOccurs=unbounded)
+         - LicensedEntity      (id minOccurs=0 maxOccurs=unbounded)
+         - Member              (id minOccurs=0 maxOccurs=unbounded)
+         - NonPersonLivingSubject (id minOccurs=0 maxOccurs=unbounded)
+         - RoleOther           (id minOccurs=1 maxOccurs=unbounded)
+       ============================================================ -->
+
+  <xs:complexType name="EE_IdTypes.COCT_MT090000UV.AssignedEntity">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT090000UV.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+        Represents an assigned entity (person, org, device) with optional identifiers.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="code" type="CE" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="addr" type="AD" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="telecom" type="TEL" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="effectiveTime" type="IVL_TS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="certificateText" type="ED" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="RoleClassAssignedEntity" use="optional" default="ASSIGNED"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT090000UV.Device">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT090000UV.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+        A device entity that may carry identifiers.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="manufacturerModelName" type="SC" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="softwareName" type="SC" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="EntityClassDevice" use="optional" default="DEV"/>
+    <xs:attribute name="determinerCode" type="EntityDeterminer" use="optional" fixed="INSTANCE"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT090000UV.LicensedEntity">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT090000UV.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+        A licensed entity role with optional identifiers.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="code" type="CE" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="effectiveTime" type="IVL_TS" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="LicensedEntityRole" use="optional" default="LIC"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT090000UV.Member">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT090000UV.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+        Membership role with optional identifiers.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="code" type="CE" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="addr" type="AD" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="telecom" type="TEL" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="statusCode" type="CS" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="effectiveTime" type="IVL_TS" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="RoleClass" use="optional" fixed="MBR"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT090000UV.NonPersonLivingSubject">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT090000UV.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="code" type="CE" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="name" type="EN" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="EntityClassNonPersonLivingSubject" use="optional" default="NLIV"/>
+    <xs:attribute name="determinerCode" type="EntityDeterminer" use="optional" fixed="INSTANCE"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT090000UV.RoleOther">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT090000UV.xsd
+        id: minOccurs=1, maxOccurs=unbounded  ← REQUIRED
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="RoleClassRoot" use="optional" default="ROL"/>
+  </xs:complexType>
+
+  <!-- ============================================================
+       SOURCE: PRPA_MT201307UV.xsd
+       Types with id of type II:
+         - ParameterList   (id minOccurs=0 maxOccurs=1)
+         - QueryByParameter→queryId (type II, minOccurs=1 maxOccurs=1) — named queryId, not id
+       ============================================================ -->
+
+  <xs:complexType name="EE_IdTypes.PRPA_MT201307UV.ParameterList">
+    <xs:annotation>
+      <xs:documentation>
+        Source: PRPA_MT201307UV.xsd
+        id: minOccurs=0, maxOccurs=1  (single optional identifier on the parameter list)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="statusCode" type="CS" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+  </xs:complexType>
+
+  <!-- ============================================================
+       SOURCE: PRPA_MT201303EE.xsd
+       Types with id of type II:
+         - CareGiver            (id minOccurs=0 maxOccurs=unbounded)
+         - Citizen              (id minOccurs=0 maxOccurs=unbounded)
+         - ContactParty         (id minOccurs=0 maxOccurs=unbounded)
+         - Employee             (id minOccurs=0 maxOccurs=unbounded)
+         - Guardian             (id minOccurs=0 maxOccurs=unbounded)
+         - Member               (id minOccurs=0 maxOccurs=unbounded)
+         - ObservationEvent     (id minOccurs=0 maxOccurs=unbounded)
+         - OtherIDs             (id minOccurs=1 maxOccurs=unbounded) ← REQUIRED
+         - Patient              (id minOccurs=0 maxOccurs=unbounded)
+         - Person               (id minOccurs=1 maxOccurs=unbounded) ← REQUIRED
+         - PersonalRelationship (id minOccurs=0 maxOccurs=unbounded)
+         - Student              (id minOccurs=0 maxOccurs=unbounded)
+       ============================================================ -->
+
+  <xs:complexType name="EE_IdTypes.PRPA_MT201303EE.CareGiver">
+    <xs:annotation>
+      <xs:documentation>
+        Source: PRPA_MT201303EE.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="code" type="CE" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="addr" type="AD" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="telecom" type="TEL" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="statusCode" type="CS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="effectiveTime" type="IVL_TS" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="RoleClass" use="optional" fixed="CAREGIVER"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.PRPA_MT201303EE.Citizen">
+    <xs:annotation>
+      <xs:documentation>
+        Source: PRPA_MT201303EE.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="effectiveTime" type="IVL_TS" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="RoleClass" use="optional" fixed="CIT"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.PRPA_MT201303EE.ContactParty">
+    <xs:annotation>
+      <xs:documentation>
+        Source: PRPA_MT201303EE.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="code" type="CE" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="addr" type="AD" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="telecom" type="TEL" minOccurs="1" maxOccurs="unbounded"/>
+      <xs:element name="statusCode" type="CS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="effectiveTime" type="IVL_TS" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="RoleClassContact" use="optional" default="CON"/>
+    <xs:attribute name="negationInd" type="bl" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.PRPA_MT201303EE.Employee">
+    <xs:annotation>
+      <xs:documentation>
+        Source: PRPA_MT201303EE.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="addr" type="AD" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="telecom" type="TEL" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="statusCode" type="CS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="effectiveTime" type="IVL_TS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="jobTitleName" type="SC" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="jobClassCode" type="CE" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="occupationCode" type="CE" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="RoleClassEmployee" use="optional" default="EMP"/>
+    <xs:attribute name="negationInd" type="bl" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.PRPA_MT201303EE.Guardian">
+    <xs:annotation>
+      <xs:documentation>
+        Source: PRPA_MT201303EE.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="addr" type="AD" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="telecom" type="TEL" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="statusCode" type="CS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="effectiveTime" type="IVL_TS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="certificateText" type="ED" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="RoleClass" use="optional" fixed="GUARD"/>
+    <xs:attribute name="negationInd" type="bl" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.PRPA_MT201303EE.Member">
+    <xs:annotation>
+      <xs:documentation>
+        Source: PRPA_MT201303EE.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="code" type="CE" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="statusCode" type="CS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="effectiveTime" type="IVL_TS" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="RoleClass" use="optional" fixed="MBR"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.PRPA_MT201303EE.ObservationEvent">
+    <xs:annotation>
+      <xs:documentation>
+        Source: PRPA_MT201303EE.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="code" type="CD" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="statusCode" type="CS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="effectiveTime" type="SXCM_TS" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="value" type="ANY" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="ActClassObservation" use="optional" default="OBS"/>
+    <xs:attribute name="moodCode" type="ActMood" use="optional" fixed="EVN"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.PRPA_MT201303EE.OtherIDs">
+    <xs:annotation>
+      <xs:documentation>
+        Source: PRPA_MT201303EE.xsd
+        id: minOccurs=1, maxOccurs=unbounded  ← REQUIRED (at least one id mandatory)
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="1" maxOccurs="unbounded"/>
+      <xs:element name="statusCode" type="CS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="effectiveTime" type="IVL_TS" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="RoleClassRoot" use="optional" default="ROL"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.PRPA_MT201303EE.Patient">
+    <xs:annotation>
+      <xs:documentation>
+        Source: PRPA_MT201303EE.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="addr" type="AD" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="telecom" type="TEL" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="statusCode" type="CS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="effectiveTime" type="IVL_TS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="confidentialityCode" type="CE" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="veryImportantPersonCode" type="CE" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="RoleClass" use="optional" fixed="PAT"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.PRPA_MT201303EE.Person">
+    <xs:annotation>
+      <xs:documentation>
+        Source: PRPA_MT201303EE.xsd
+        id: minOccurs=1, maxOccurs=unbounded  ← REQUIRED (at least one id mandatory)
+        Note: Person also requires at least one name element.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="1" maxOccurs="unbounded"/>
+      <xs:element name="name" type="PN" minOccurs="1" maxOccurs="unbounded"/>
+      <xs:element name="desc" type="ED" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="telecom" type="TEL" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="administrativeGenderCode" type="CE" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="birthTime" type="TS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="deceasedInd" type="BL" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="deceasedTime" type="TS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="multipleBirthInd" type="BL" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="multipleBirthOrderNumber" type="INT" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="organDonorInd" type="BL" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="addr" type="AD" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="maritalStatusCode" type="CE" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="educationLevelCode" type="CE" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="disabilityCode" type="CE" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="livingArrangementCode" type="CE" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="religiousAffiliationCode" type="CE" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="raceCode" type="CE" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="ethnicGroupCode" type="CE" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="EntityClass" use="optional" fixed="PSN"/>
+    <xs:attribute name="determinerCode" type="EntityDeterminer" use="optional" fixed="INSTANCE"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.PRPA_MT201303EE.PersonalRelationship">
+    <xs:annotation>
+      <xs:documentation>
+        Source: PRPA_MT201303EE.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="code" type="CE" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="statusCode" type="CS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="effectiveTime" type="IVL_TS" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="RoleClass" use="optional" fixed="PRS"/>
+    <xs:attribute name="negationInd" type="bl" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.PRPA_MT201303EE.Student">
+    <xs:annotation>
+      <xs:documentation>
+        Source: PRPA_MT201303EE.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="addr" type="AD" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="telecom" type="TEL" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="statusCode" type="CS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="effectiveTime" type="IVL_TS" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="RoleClass" use="optional" fixed="STD"/>
+  </xs:complexType>
+
+  <!-- ============================================================
+       SOURCE: COCT_MT030203UV02.xsd
+       Types with id of type II:
+         - Person   (id minOccurs=1, maxOccurs=unbounded) ← REQUIRED
+       ============================================================ -->
+
+  <xs:complexType name="EE_IdTypes.COCT_MT030203UV02.Person">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT030203UV02.xsd
+        id: minOccurs=1, maxOccurs=unbounded  ← REQUIRED
+        Compact person type used in query contexts.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="1" maxOccurs="unbounded"/>
+      <xs:element name="name" type="EN" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="administrativeGenderCode" type="CE" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="birthTime" type="TS" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="EntityClass" use="optional" fixed="PSN"/>
+    <xs:attribute name="determinerCode" type="EntityDeterminer" use="optional" fixed="INSTANCE"/>
+  </xs:complexType>
+
+  <!-- ============================================================
+       SOURCE: COCT_MT030200UV.xsd
+       Types with id of type II:
+         - Citizen      (id minOccurs=0, maxOccurs=unbounded)
+         - ContactParty (id minOccurs=0, maxOccurs=unbounded)
+         - Employment   (id minOccurs=0, maxOccurs=unbounded)
+         - Guarantor    (id minOccurs=0, maxOccurs=unbounded)
+         - Guardian     (id minOccurs=0, maxOccurs=unbounded)
+         - Member       (id minOccurs=0, maxOccurs=unbounded)
+         - OtherIDs     (id minOccurs=1, maxOccurs=unbounded) ← REQUIRED
+         - Person       (id minOccurs=0, maxOccurs=unbounded)
+         - Student      (id minOccurs=0, maxOccurs=unbounded)
+       ============================================================ -->
+
+  <xs:complexType name="EE_IdTypes.COCT_MT030200UV.Citizen">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT030200UV.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="effectiveTime" type="IVL_TS" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="RoleClass" use="optional" fixed="CIT"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT030200UV.ContactParty">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT030200UV.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="code" type="CE" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="addr" type="AD" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="telecom" type="TEL" minOccurs="1" maxOccurs="unbounded"/>
+      <xs:element name="statusCode" type="CS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="effectiveTime" type="IVL_TS" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="RoleClassContact" use="optional" default="CON"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT030200UV.Employment">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT030200UV.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+        Also base type for POCD_MT00040_EE01_Extension.asEmployment.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="addr" type="AD" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="telecom" type="TEL" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="statusCode" type="CS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="effectiveTime" type="IVL_TS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="jobCode" type="CE" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="jobTitleName" type="SC" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="jobClassCode" type="CE" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="RoleClassEmployee" use="optional" default="EMP"/>
+    <xs:attribute name="negationInd" type="bl" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT030200UV.Guarantor">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT030200UV.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="addr" type="AD" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="telecom" type="TEL" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="statusCode" type="CS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="effectiveTime" type="IVL_TS" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="RoleClass" use="optional" fixed="GUAR"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT030200UV.Guardian">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT030200UV.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="addr" type="AD" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="telecom" type="TEL" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="statusCode" type="CS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="effectiveTime" type="IVL_TS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="certificateText" type="ED" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="RoleClass" use="optional" fixed="GUARD"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT030200UV.Member">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT030200UV.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="code" type="CE" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="statusCode" type="CS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="effectiveTime" type="IVL_TS" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="RoleClass" use="optional" fixed="MBR"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT030200UV.OtherIDs">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT030200UV.xsd
+        id: minOccurs=1, maxOccurs=unbounded  ← REQUIRED
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="RoleClassRoot" use="optional" default="ROL"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT030200UV.Person">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT030200UV.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+        Also base type for POCD_MT00040_EE01_Extension.patientPerson.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="name" type="EN" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="desc" type="ED" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="statusCode" type="CS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="administrativeGenderCode" type="CE" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="birthTime" type="TS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="deceasedInd" type="BL" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="deceasedTime" type="TS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="multipleBirthInd" type="BL" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="multipleBirthOrderNumber" type="INT" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="organDonorInd" type="BL" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="maritalStatusCode" type="CE" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="educationLevelCode" type="CE" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="disabilityCode" type="CE" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="livingArrangementCode" type="CE" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="religiousAffiliationCode" type="CE" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="raceCode" type="CE" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="ethnicGroupCode" type="CE" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="EntityClass" use="optional" fixed="PSN"/>
+    <xs:attribute name="determinerCode" type="EntityDeterminer" use="optional" fixed="INSTANCE"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT030200UV.Student">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT030200UV.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="addr" type="AD" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="telecom" type="TEL" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="statusCode" type="CS" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="effectiveTime" type="IVL_TS" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="RoleClass" use="optional" fixed="STD"/>
+  </xs:complexType>
+
+  <!-- ============================================================
+       SOURCE: COCT_MT030202UV01.xsd
+       Types with id of type II:
+         - Person  (id minOccurs=1, maxOccurs=unbounded) ← REQUIRED
+       ============================================================ -->
+
+  <xs:complexType name="EE_IdTypes.COCT_MT030202UV01.Person">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT030202UV01.xsd
+        id: minOccurs=1, maxOccurs=unbounded  ← REQUIRED
+        Used as guardianPerson / contactPerson / guarantorPerson in COCT_MT030200UV.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="1" maxOccurs="unbounded"/>
+      <xs:element name="name" type="EN" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="administrativeGenderCode" type="CE" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="birthTime" type="TS" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="EntityClass" use="optional" fixed="PSN"/>
+    <xs:attribute name="determinerCode" type="EntityDeterminer" use="optional" fixed="INSTANCE"/>
+  </xs:complexType>
+
+  <!-- ============================================================
+       SOURCE: COCT_MT010000UV01.xsd
+       Types with id of type II:
+         - Attender              (id minOccurs=0, maxOccurs=unbounded)
+         - Encounter             (id minOccurs=1, maxOccurs=unbounded) ← REQUIRED
+         - Location1             (id minOccurs=0, maxOccurs=unbounded)
+         - ResponsibleParty1     (id minOccurs=0, maxOccurs=unbounded)
+         - ServiceDeliveryLocation (id minOccurs=0, maxOccurs=unbounded)
+       ============================================================ -->
+
+  <xs:complexType name="EE_IdTypes.COCT_MT010000UV01.Attender">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT010000UV01.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="time" type="IVL_TS" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="modeCode" type="CE" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="statusCode" type="CS" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="typeCode" type="ParticipationType" use="optional" fixed="ATND"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT010000UV01.Encounter">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT010000UV01.xsd
+        id: minOccurs=1, maxOccurs=unbounded  ← REQUIRED
+        Core encounter class. Also the base for
+        POCD_MT00040_EE01_Extension.encounter.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="1" maxOccurs="unbounded"/>
+      <xs:element name="code" type="CD" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="statusCode" type="CS" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="effectiveTime" type="IVL_TS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="activityTime" type="IVL_TS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="priorityCode" type="CE" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="confidentialityCode" type="CE" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="reasonCode" type="CE" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="admissionReferralSourceCode" type="CE" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="lengthOfStayQuantity" type="PQ" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="dischargeDispositionCode" type="CE" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="preAdmitTestInd" type="BL" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="specialCourtesiesCode" type="CE" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="specialArrangementCode" type="CE" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="ActClass" use="optional" fixed="ENC"/>
+    <xs:attribute name="moodCode" type="ActMood" use="optional" fixed="EVN"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT010000UV01.Location1">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT010000UV01.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="time" type="IVL_TS" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="statusCode" type="CS" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="typeCode" type="ParticipationTargetLocation" use="optional" default="LOC"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT010000UV01.ResponsibleParty1">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT010000UV01.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="time" type="IVL_TS" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="statusCode" type="CS" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="typeCode" type="ParticipationType" use="optional" fixed="RESP"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT010000UV01.ServiceDeliveryLocation">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT010000UV01.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="code" type="CE" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="addr" type="AD" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="telecom" type="TEL" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="statusCode" type="CS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="effectiveTime" type="IVL_TS" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="RoleClassServiceDeliveryLocation" use="optional" default="SDLOC"/>
+  </xs:complexType>
+
+  <!-- ============================================================
+       SOURCE: COCT_MT530000UV.xsd
+       Types with id of type II:
+         - Act                 (id minOccurs=0, maxOccurs=unbounded)
+         - ActDefinition       (id minOccurs=1, maxOccurs=1) ← single REQUIRED
+         - ActReference        (id minOccurs=1, maxOccurs=1) ← single REQUIRED
+         - ControlActEvent     (id minOccurs=0, maxOccurs=1)
+         - Encounter           (id minOccurs=0, maxOccurs=unbounded)
+         - HealthCareFacility  (id minOccurs=0, maxOccurs=1)
+         - ManufacturedProduct (id minOccurs=0, maxOccurs=unbounded)
+         - Observation         (id minOccurs=0, maxOccurs=unbounded)
+         - Organizer           (id minOccurs=0, maxOccurs=unbounded)
+         - Procedure           (id minOccurs=0, maxOccurs=unbounded)
+         - RelatedEntity       (id minOccurs=0, maxOccurs=unbounded)
+         - Role                (id minOccurs=1, maxOccurs=1) ← single REQUIRED
+         - SubstanceAdministration (id minOccurs=0, maxOccurs=unbounded)
+         - Supply              (id minOccurs=0, maxOccurs=unbounded)
+       ============================================================ -->
+
+  <xs:complexType name="EE_IdTypes.COCT_MT530000UV.Act">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT530000UV.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="code" type="CD" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="text" type="ED" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="statusCode" type="CS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="effectiveTime" type="IVL_TS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="availabilityTime" type="TS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="priorityCode" type="CE" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="confidentialityCode" type="CE" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="uncertaintyCode" type="CE" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="languageCode" type="CS" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="ActClassRoot" use="optional" default="ACT"/>
+    <xs:attribute name="moodCode" type="x_ClinicalStatementActMood" use="required"/>
+    <xs:attribute name="negationInd" type="bl" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT530000UV.ActDefinition">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT530000UV.xsd
+        id: minOccurs=1, maxOccurs=1  ← single REQUIRED id
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="text" type="ED" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="ActClassRoot" use="optional" default="ACT"/>
+    <xs:attribute name="moodCode" type="ActMood" use="optional" fixed="DEF"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT530000UV.ActReference">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT530000UV.xsd
+        id: minOccurs=1, maxOccurs=1  ← single REQUIRED id
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="ActClassRoot" use="optional" default="ACT"/>
+    <xs:attribute name="moodCode" type="ActMood" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT530000UV.ControlActEvent">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT530000UV.xsd
+        id: minOccurs=0, maxOccurs=1
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="code" type="CV" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="statusCode" type="CS" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="effectiveTime" type="TS" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="reasonCode" type="CV" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="ActClassControlAct" use="optional" default="CACT"/>
+    <xs:attribute name="moodCode" type="ActMood" use="optional" fixed="EVN"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT530000UV.HealthCareFacility">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT530000UV.xsd
+        id: minOccurs=0, maxOccurs=1
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="code" type="CE" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="RoleClassServiceDeliveryLocation" use="optional" default="SDLOC"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT530000UV.ManufacturedProduct">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT530000UV.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="RoleClassManufacturedProduct" use="optional" default="MANU"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT530000UV.Observation">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT530000UV.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="code" type="CD" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="derivationExpr" type="ST" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="text" type="ED" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="statusCode" type="CS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="effectiveTime" type="SXCM_TS" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="availabilityTime" type="TS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="priorityCode" type="CE" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="confidentialityCode" type="CE" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="repeatNumber" type="IVL_INT" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="uncertaintyCode" type="CE" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="languageCode" type="CS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="value" type="ANY" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="interpretationCode" type="CE" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="methodCode" type="CE" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="targetSiteCode" type="CD" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="ActClassObservation" use="optional" default="OBS"/>
+    <xs:attribute name="moodCode" type="x_ClinicalStatementObservationMood" use="required"/>
+    <xs:attribute name="negationInd" type="bl" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT530000UV.Organizer">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT530000UV.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="code" type="CD" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="text" type="ED" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="statusCode" type="CS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="effectiveTime" type="IVL_TS" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="ActClassContainer" use="required"/>
+    <xs:attribute name="moodCode" type="ActMood" use="optional" fixed="EVN"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT530000UV.Procedure">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT530000UV.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="code" type="CD" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="text" type="ED" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="statusCode" type="CS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="effectiveTime" type="SXCM_TS" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="ActClassProcedure" use="optional" default="PROC"/>
+    <xs:attribute name="moodCode" type="x_ClinicalStatementProcedureMood" use="required"/>
+    <xs:attribute name="negationInd" type="bl" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT530000UV.RelatedEntity">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT530000UV.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="code" type="CE" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="addr" type="AD" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="telecom" type="TEL" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="RoleClassMutualRelationship" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT530000UV.Role">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT530000UV.xsd
+        id: minOccurs=1, maxOccurs=1  ← single REQUIRED id
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="code" type="CE" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="RoleClassRoot" use="optional" default="ROL"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT530000UV.SubstanceAdministration">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT530000UV.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="code" type="CD" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="text" type="ED" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="statusCode" type="CS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="effectiveTime" type="SXCM_TS" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="ActClass" use="optional" fixed="SBADM"/>
+    <xs:attribute name="moodCode" type="x_ClinicalStatementSubstanceMood" use="required"/>
+    <xs:attribute name="negationInd" type="bl" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT530000UV.Supply">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT530000UV.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="code" type="CD" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="text" type="ED" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="statusCode" type="CS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="effectiveTime" type="SXCM_TS" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="ActClassSupply" use="optional" default="SPLY"/>
+    <xs:attribute name="moodCode" type="x_ClinicalStatementSupplyMood" use="required"/>
+  </xs:complexType>
+
+  <!-- ============================================================
+       SOURCE: COCT_MT080000UV.xsd
+       Types with id of type II:
+         - AdditiveMaterial               (id minOccurs=0, maxOccurs=unbounded)
+         - AutomationSpecimenObservationEvent (id minOccurs=0, maxOccurs=unbounded)
+         - Container                      (id minOccurs=0, maxOccurs=1)
+         - IdentifiedContainer            (id minOccurs=1, maxOccurs=1) ← REQUIRED
+         - IdentifiedHolder               (id minOccurs=1, maxOccurs=1) ← REQUIRED
+         - ProcessStep                    (id minOccurs=0, maxOccurs=unbounded)
+         - Process                        (id minOccurs=0, maxOccurs=unbounded)
+         - Specimen                       (id minOccurs=1, maxOccurs=1) ← REQUIRED
+         - SpecimenAlternateIdentifier    (id minOccurs=1, maxOccurs=1) ← REQUIRED
+         - SpecimenObservationEvent       (id minOccurs=0, maxOccurs=unbounded)
+         - SpecimenStub                   (id minOccurs=1, maxOccurs=1) ← REQUIRED
+       ============================================================ -->
+
+  <xs:complexType name="EE_IdTypes.COCT_MT080000UV.AdditiveMaterial">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT080000UV.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="code" type="CE" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="desc" type="ED" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="EntityClassMaterial" use="optional" default="MAT"/>
+    <xs:attribute name="determinerCode" type="EntityDeterminer" use="optional" fixed="INSTANCE"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT080000UV.AutomationSpecimenObservationEvent">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT080000UV.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="code" type="CE" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="text" type="ST" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="statusCode" type="CS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="effectiveTime" type="TS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="value" type="ANY" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="ActClass" use="optional" fixed="SPCOBS"/>
+    <xs:attribute name="moodCode" type="ActMood" use="optional" fixed="EVN"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT080000UV.Container">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT080000UV.xsd
+        id: minOccurs=0, maxOccurs=1
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="code" type="CE" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="desc" type="ED" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="riskCode" type="CE" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="handlingCode" type="CE" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="capacityQuantity" type="PQ" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="heightQuantity" type="PQ" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="diameterQuantity" type="PQ" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="capTypeCode" type="CE" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="separatorTypeCode" type="CE" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="barrierDeltaQuantity" type="PQ" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="bottomDeltaQuantity" type="PQ" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="EntityClassContainer" use="optional" default="CONT"/>
+    <xs:attribute name="determinerCode" type="EntityDeterminer" use="optional" fixed="INSTANCE"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT080000UV.IdentifiedContainer">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT080000UV.xsd
+        id: minOccurs=1, maxOccurs=1  ← single REQUIRED id
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="code" type="CE" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="RoleClass" use="optional" fixed="IDENT"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT080000UV.IdentifiedHolder">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT080000UV.xsd
+        id: minOccurs=1, maxOccurs=1  ← single REQUIRED id
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="code" type="CE" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="RoleClass" use="optional" fixed="IDENT"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT080000UV.Process">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT080000UV.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="code" type="CE" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="text" type="ST" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="statusCode" type="CS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="effectiveTime" type="SXCM_TS" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="ActClassProcedure" use="optional" default="PROC"/>
+    <xs:attribute name="moodCode" type="x_ActMoodIntentEvent" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT080000UV.ProcessStep">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT080000UV.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="code" type="CD" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="text" type="ST" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="statusCode" type="CS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="effectiveTime" type="IVL_TS" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="x_LabProcessClassCodes" use="required"/>
+    <xs:attribute name="moodCode" type="ActMood" use="optional" fixed="EVN"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT080000UV.Specimen">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT080000UV.xsd
+        id: minOccurs=1, maxOccurs=1  ← single REQUIRED id
+        Also base type for POCD_MT00040_EE01_Extension.specimen.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="code" type="CE" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="RoleClassSpecimen" use="optional" default="SPEC"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT080000UV.SpecimenAlternateIdentifier">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT080000UV.xsd
+        id: minOccurs=1, maxOccurs=1  ← single REQUIRED id
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="code" type="CE" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="RoleClass" use="optional" fixed="IDENT"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT080000UV.SpecimenObservationEvent">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT080000UV.xsd
+        id: minOccurs=0, maxOccurs=unbounded
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="code" type="CE" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="text" type="ST" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="statusCode" type="CS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="effectiveTime" type="TS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="value" type="ANY" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="ActClassObservation" use="optional" default="OBS"/>
+    <xs:attribute name="moodCode" type="ActMood" use="optional" fixed="EVN"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT080000UV.SpecimenStub">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT080000UV.xsd
+        id: minOccurs=1, maxOccurs=1  ← single REQUIRED id
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="RoleClassSpecimen" use="optional" default="SPEC"/>
+  </xs:complexType>
+
+  <!-- ============================================================
+       SOURCE: COCT_MT120100UV.xsd
+       Types with id of type II:
+         - ObservationDefinition (id minOccurs=1, maxOccurs=1) ← single REQUIRED
+         - ObservationDx         (id minOccurs=0, maxOccurs=1)
+       ============================================================ -->
+
+  <xs:complexType name="EE_IdTypes.COCT_MT120100UV.ObservationDefinition">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT120100UV.xsd
+        id: minOccurs=1, maxOccurs=1  ← single REQUIRED id
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="text" type="ED" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="ActClassObservation" use="optional" default="OBS"/>
+    <xs:attribute name="moodCode" type="ActMood" use="optional" fixed="DEF"/>
+  </xs:complexType>
+
+  <xs:complexType name="EE_IdTypes.COCT_MT120100UV.ObservationDx">
+    <xs:annotation>
+      <xs:documentation>
+        Source: COCT_MT120100UV.xsd
+        id: minOccurs=0, maxOccurs=1
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:group ref="InfrastructureRootElements"/>
+      <xs:element name="id" type="II" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="code" type="CE" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="text" type="ED" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="statusCode" type="CS" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="effectiveTime" type="IVL_TS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="activityTime" type="IVL_TS" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="confidentialityCode" type="CE" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="uncertaintyCode" type="CE" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="value" type="CE" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="targetSiteCode" type="CD" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="InfrastructureRootAttributes"/>
+    <xs:attribute name="classCode" type="ActClassObservation" use="optional" default="OBS"/>
+    <xs:attribute name="moodCode" type="ActMood" use="optional" fixed="EVN"/>
+    <xs:attribute name="negationInd" type="bl" use="optional" default="false"/>
+  </xs:complexType>
+
+</xs:schema>

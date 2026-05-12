@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="http://pub.e-tervis.ee/standards2/Standards/2.0/XSL/main.xsl"?>
+<ClinicalDocument xsi:schemaLocation="urn:hl7-org:v3 http://pub.e-tervis.ee/standards2/Schema/V3/HL7-ORG-V3-2005-NORMATIVE-EE-DL-Ext-V1/infrastructure/cda/CDA_EE01.xsd urn:hl7-EE-DL-Ext:v1 http://pub.e-tervis.ee/standards2/Schema/V3/HL7-ORG-V3-2006-NORMATIVE-EE-DL-Ext-V1/processable/multicacheschemas/POCD_MT000040_EE01_Extension.xsd" xmlns="urn:hl7-org:v3" xmlns:ext="urn:hl7-EE-DL-Ext:v1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <typeId root="2.16.840.1.113883.1.3" extension="POCD_HD000040"/>
+  <templateId root="1.3.6.1.4.1.28284.6.1.1" extension="1.3.6.1.4.1.28284.6.1.1.5.2"/>
+  <id root="1.3.6.1.4.1.28284.1.9.2.2.3" extension="39014"/>
+  <code code="2" codeSystem="1.3.6.1.4.1.28284.6.2.1.3.1" codeSystemName="Dokumendi tüüp" displayName="Ambulatoorne epikriis"/>
+  <title>Ambulatoorne epikriis</title>
+  <effectiveTime value="20091204152854"/>
+  <confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25" codeSystemName="Konfidentsiaalsus" displayName="Normaalne">
+    <translation code="N" codeSystem="1.3.6.1.4.1.28284.6.2.2.37.1" codeSystemName="Konfidentsiaalsus eestkostjale" displayName="Normaalne"/>
+    <translation/>
+  </confidentialityCode>
+  <languageCode code="EST"/>
+  <setId root="1.3.6.1.4.1.28284.1.9.2.1" extension="A.143947.2009"/>
+  <versionNumber value="1"/>
+  <recordTarget typeCode="RCT">
+    <realmCode code="PAT"/>
+    <patientRole classCode="PAT">
+      <id root="1.3.6.1.4.1.28284.6.2.2.1" extension="12311230812"/>
+      <addr use="PHYS">
+        <country>EST</country>
+        <county>HARJUMAA</county>
+        <city>Tallinn</city>
+        <streetAddressLine>Liiv 1</streetAddressLine>
+        <unitID>12345</unitID>
+      </addr>
+      <patient classCode="PSN" determinerCode="INSTANCE">
+        <name>
+          <family>Doe</family>
+          <given>John</given>
+        </name>
+        <administrativeGenderCode code="M" codeSystem="1.3.6.1.4.1.28284.6.2.3.16.1" codeSystemName="Sugu" displayName="mees"/>
+        <birthTime value="20031122"/>
+      </patient>
+    </patientRole>
+  </recordTarget>
+  <author typeCode="AUT">
+    <time value="200912041528"/>
+    <assignedAuthor classCode="ASSIGNED">
+      <id root="1.3.6.1.4.1.28284.6.2.4.9" extension="D04089"/>
+      <ext:asLicencedEntity ext:HL7-ClassName="LIC" ext:HL7-Domain="PRPM_RM000000" ext:realmCode="EE">
+        <ext:id root="1.3.6.1.4.1.28284.6.2.1.4.1" extension="E290" assigningAuthorityName="pediaatria"/>
+      </ext:asLicencedEntity>
+      <code code="DOCTOR" codeSystem="1.3.6.1.4.1.28284.6.2.2.15.1" codeSystemName="Tervishoiutöötajate tüüp" displayName="arst"/>
+      <assignedPerson classCode="PSN" determinerCode="INSTANCE">
+        <name>
+          <family>Tamm</family>
+          <given>Mari</given>
+        </name>
+      </assignedPerson>
+      <representedOrganization classCode="ORG" determinerCode="INSTANCE">
+        <id root="1.3.6.1.4.1.28284.4" extension="90006590"/>
+        <name>SA Tallinna haigla</name>
+        <telecom value="tel:6977-111"/>
+        <telecom/>
+        <telecom/>
+        <addr use="PHYS">
+          <country>EST</country>
+          <city>TALLINN</city>
+          <postalCode>123456</postalCode>
+          <streetAddressLine>Tervise 1</streetAddressLine>
+          <unitID>12345</unitID>
+        </addr>
+      </representedOrganization>
+    </assignedAuthor>
+  </author>
+  <custodian typeCode="CST">
+    <assignedCustodian>
+      <representedCustodianOrganization>
+        <id root="1.3.6.1.4.1.28284.4" extension="90006590"/>
+        <name>SA Tallinna haigla</name>
+      </representedCustodianOrganization>
+    </assignedCustodian>
+  </custodian>
+  <componentOf>
+    <encompassingEncounter>
+      <id root="1.3.6.1.4.1.28284.1.9.2.1" extension="A.143947.2009"/>
+      <code code="AMB" codeSystem="1.3.6.1.4.1.28284.6.2.1.5.1" codeSystemName="Haigusjuhtumi tüüp" displayName="ambulatoorne haigusjuht"/>
+      <effectiveTime>
+        <low value="20091125"/>
+        <high value="20091201"/>
+      </effectiveTime>
+      <ext:encounter ext:HL7-ClassName="ENC" ext:HL7-Domain="PRPA_RM000000" ext:realmCode="EE">
+        <ext:id root="1.3.6.1.4.1.28284.1.9.2.1" extension="A.143947.2009"/>
+        <ext:code code="AMB" codeSystem="1.3.6.1.4.1.28284.6.2.2.3.1" codeSystemName="Raviasutuses viibimine" displayName="käesolev ambulatoorne haigusjuht"/>
+        <ext:statusCode code="Completed"/>
+        <ext:admissionReferralSourceCode code="3" codeSystem="1.3.6.1.4.1.28284.6.2.1.10.1" codeSystemName="Patsiendi pöördumise viis" displayName="saatekirjaga"/>
+        <ext:subject>
+          <ext:patient>
+            <ext:id root="1.3.6.1.4.1.28284.6.2.2.1" extension="12311230812"/>
+            <ext:statusCode code="active"/>
+            <ext:patientPerson>
+              <ext:name>
+                <ext:given>John</ext:given>
+                <ext:family>Doe</ext:family>
+              </ext:name>
+            </ext:patientPerson>
+          </ext:patient>
+        </ext:subject>
+      </ext:encounter>
+    </encompassingEncounter>
+  </componentOf>
+  <component typeCode="COMP">
+    <structuredBody classCode="DOCBODY" moodCode="EVN">
+      <component typeCode="COMP">
+        <section classCode="DOCSECT" moodCode="EVN">
+          <code code="DGN" codeSystem="1.3.6.1.4.1.28284.6.2.2.11.1" codeSystemName="Sektsiooni kodeering" displayName="Lõplik kliiniline diagnoos"/>
+          <title>Lõplik kliiniline diagnoos</title>
+          <text>
+            <paragraph>
+              <content>Põhidiagnoos: E12.3 Diagnoosi nimi.</content>
+            </paragraph>
+          </text>
+          <entry typeCode="COMP">
+            <observation classCode="OBS" moodCode="EVN">
+              <code code="DGN" codeSystem="1.3.6.1.4.1.28284.6.2.2.5.1" codeSystemName="Observation liik" displayName="Diagnoos"/>
+              <statusCode code="completed"/>
+              <value xsi:type="CD" code="E34.3" codeSystem="1.3.6.1.4.1.28284.6.2.1.13.1" codeSystemName="RHK-1" displayName="Diagnoosi nimi">
+                <originalText>Diagnoosi nimi</originalText>
+                <qualifier>
+                  <value code="-" codeSystem="1.3.6.1.4.1.28284.6.2.1.1.1" codeSystemName="Diagnoosi statistiline liik" displayName="korduv"/>
+                </qualifier>
+              </value>
+              <interpretationCode code="MAIN" codeSystem="1.3.6.1.4.1.28284.6.2.1.2.1" codeSystemName="Diagnoosi liik" displayName="Põhihaigus"/>
+            </observation>
+          </entry>
+        </section>
+      </component>
+      <component typeCode="COMP">
+        <section classCode="DOCSECT" moodCode="EVN">
+          <code code="ANAM" codeSystem="1.3.6.1.4.1.28284.6.2.2.11.1" codeSystemName="Sektsiooni kodeering" displayName="Anamnees, diagnoosi põhjendus ja haiguse kulg"/>
+          <title>Anamnees, diagnoosi põhjendus ja haiguse kulg</title>
+          <text>
+            <paragraph ID="ANAMSUM">
+              <content>25.11.2009 - Doktooriga tehtud tekst mis selgitab mis juhtus. Sama nagu emal, Jane Doe i.k. 12345678901
+</content>
+            </paragraph>
+            <list>
+              <item ID="ANA">
+                <caption>Anamnees</caption>
+                <content>25.11.2009 - Täpsustav tekst.
+</content>
+              </item>
+            </list>
+          </text>
+        </section>
+      </component>
+      <component typeCode="COMP">
+        <section classCode="DOCSECT" moodCode="EVN">
+          <code code="SUM" codeSystem="1.3.6.1.4.1.28284.6.2.2.11.1" codeSystemName="Sektsiooni kodeering" displayName="Kokkuvõte patsiendi ravist"/>
+          <title>Kokkuvõte patsiendi ravist</title>
+          <text>
+            <paragraph ID="SUMSUM">
+              <content>Ravi: 01.12.2009 - Konkreetiseerimine mis juhtus ja toimub, vajalik sammud et haigusega tegeleda, soovitused, järmise visiidi soovitus ja veel mingi info, mille sees midagi saab olla. Tagasi tulemiseks 8 kuud. Sama nagu abikaasal Kristi Tamm i.k. 09876543212
+.</content>
+            </paragraph>
+          </text>
+        </section>
+      </component>
+      <component typeCode="COMP">
+        <section classCode="DOCSECT" moodCode="EVN">
+          <code code="ANA" codeSystem="1.3.6.1.4.1.28284.6.2.2.11.1" codeSystemName="Sektsiooni kodeering" displayName="Analüüsid"/>
+          <title>Analüüsid</title>
+          <text styleCode="xformatted">
+            <table>
+              <thead>
+                <tr>
+                  <th rowspan="2">Analüüs</th>
+                  <th rowspan="2">Parameeter</th>
+                  <th rowspan="2">Ühik</th>
+                  <th colspan="2">Tulemused</th>
+                </tr>
+                <tr>
+                  <th>Kuupäev</th>
+                  <th>Tulemus</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Biokeemilised uuringud</td>
+                  <td>D vitamiin</td>
+                  <td>nmol/l</td>
+                  <td>27.11.2009</td>
+                  <td>38,3</td>
+                </tr>
+                <tr>
+                  <td>Immuunmeetodi uuringud</td>
+                  <td>Ferritiin</td>
+                  <td>ng/ml</td>
+                  <td>26.11.2009</td>
+                  <td>33,3</td>
+                </tr>
+                <tr>
+                  <td>Immuunmeetodi uuringud</td>
+                  <td>FT4</td>
+                  <td>pmol/l</td>
+                  <td>26.11.2009</td>
+                  <td>15,8</td>
+                </tr>
+                <tr>
+                  <td>Immuunmeetodi uuringud</td>
+                  <td>TSH</td>
+                  <td>mU/l</td>
+                  <td>26.11.2009</td>
+                  <td>2,04</td>
+                </tr>
+                <tr>
+                  <td>Immuunmeetodi uuringud</td>
+                  <td>IGF BP3</td>
+                  <td>µg/ml</td>
+                  <td>27.11.2009</td>
+                  <td>2,3</td>
+                </tr>
+                <tr>
+                  <td>Immuunmeetodi uuringud</td>
+                  <td>IGF-1</td>
+                  <td>ng/ml</td>
+                  <td>27.11.2009</td>
+                  <td>109</td>
+                </tr>
+              </tbody>
+            </table>
+          </text>
+          <entry typeCode="COMP">
+            <procedure classCode="PROC" moodCode="EVN">
+              <code code="6243" codeSystem="1.3.6.1.4.1.28284.1.9.2.16" codeSystemName="Analüüsid" displayName="Biokeemilised uuringud"/>
+              <entryRelationship typeCode="REFR">
+                <observation classCode="OBS" moodCode="EVN">
+                  <code code="ANA" codeSystem="1.3.6.1.4.1.28284.6.2.2.5.1" codeSystemName="Observation liik" displayName="Analüüs"/>
+                  <specimen typeCode="SPC">
+                    <specimenRole classCode="SPEC">
+                      <specimenPlayingEntity classCode="ENT" determinerCode="INSTANCE">
+                        <code code="6243" displayName="D vitamiin(D vitamiin)"/>
+                        <desc>nmol/l</desc>
+                      </specimenPlayingEntity>
+                    </specimenRole>
+                  </specimen>
+                  <entryRelationship typeCode="REFR">
+                    <observation classCode="OBS" moodCode="EVN">
+                      <code code="ANA" codeSystem="1.3.6.1.4.1.28284.6.2.2.5.1" codeSystemName="Observation liik" displayName="Analüüs"/>
+                      <statusCode code="completed"/>
+                      <effectiveTime value="20091127"/>
+                      <value xsi:type="ED">38,3</value>
+                    </observation>
+                  </entryRelationship>
+                  <referenceRange>
+                    <observationRange/>
+                  </referenceRange>
+                </observation>
+              </entryRelationship>
+            </procedure>
+          </entry>
+          <entry typeCode="COMP">
+            <procedure classCode="PROC" moodCode="EVN">
+              <code code="5331" codeSystem="1.3.6.1.4.1.28284.1.9.2.16" codeSystemName="Analüüsid" displayName="Immuunmeetodi uuringud"/>
+              <entryRelationship typeCode="REFR">
+                <observation classCode="OBS" moodCode="EVN">
+                  <code code="ANA" codeSystem="1.3.6.1.4.1.28284.6.2.2.5.1" codeSystemName="Observation liik" displayName="Analüüs"/>
+                  <specimen typeCode="SPC">
+                    <specimenRole classCode="SPEC">
+                      <specimenPlayingEntity classCode="ENT" determinerCode="INSTANCE">
+                        <code code="2098" displayName="Ferritiin(LH immunoloogia)"/>
+                        <desc>ng/ml</desc>
+                      </specimenPlayingEntity>
+                    </specimenRole>
+                  </specimen>
+                  <entryRelationship typeCode="REFR">
+                    <observation classCode="OBS" moodCode="EVN">
+                      <code code="ANA" codeSystem="1.3.6.1.4.1.28284.6.2.2.5.1" codeSystemName="Observation liik" displayName="Analüüs"/>
+                      <statusCode code="completed"/>
+                      <effectiveTime value="20091126"/>
+                      <value xsi:type="ED">33,3</value>
+                    </observation>
+                  </entryRelationship>
+                  <referenceRange typeCode="REFV">
+                    <observationRange classCode="OBS" moodCode="EVN.CRT">
+                      <text>13,4 - 75</text>
+                    </observationRange>
+                  </referenceRange>
+                </observation>
+              </entryRelationship>
+              <entryRelationship typeCode="REFR">
+                <observation classCode="OBS" moodCode="EVN">
+                  <code code="ANA" codeSystem="1.3.6.1.4.1.28284.6.2.2.5.1" codeSystemName="Observation liik" displayName="Analüüs"/>
+                  <specimen typeCode="SPC">
+                    <specimenRole classCode="SPEC">
+                      <specimenPlayingEntity classCode="ENT" determinerCode="INSTANCE">
+                        <code code="2131" displayName="FT4"/>
+                        <desc>pmol/l</desc>
+                      </specimenPlayingEntity>
+                    </specimenRole>
+                  </specimen>
+                  <entryRelationship typeCode="REFR">
+                    <observation classCode="OBS" moodCode="EVN">
+                      <code code="ANA" codeSystem="1.3.6.1.4.1.28284.6.2.2.5.1" codeSystemName="Observation liik" displayName="Analüüs"/>
+                      <statusCode code="completed"/>
+                      <effectiveTime value="20091126"/>
+                      <value xsi:type="ED">15,8</value>
+                    </observation>
+                  </entryRelationship>
+                  <referenceRange typeCode="REFV">
+                    <observationRange classCode="OBS" moodCode="EVN.CRT">
+                      <text>12 - 23</text>
+                    </observationRange>
+                  </referenceRange>
+                </observation>
+              </entryRelationship>
+              <entryRelationship typeCode="REFR">
+                <observation classCode="OBS" moodCode="EVN">
+                  <code code="ANA" codeSystem="1.3.6.1.4.1.28284.6.2.2.5.1" codeSystemName="Observation liik" displayName="Analüüs"/>
+                  <specimen typeCode="SPC">
+                    <specimenRole classCode="SPEC">
+                      <specimenPlayingEntity classCode="ENT" determinerCode="INSTANCE">
+                        <code code="2127" displayName="TSH"/>
+                        <desc>mU/l</desc>
+                      </specimenPlayingEntity>
+                    </specimenRole>
+                  </specimen>
+                  <entryRelationship typeCode="REFR">
+                    <observation classCode="OBS" moodCode="EVN">
+                      <code code="ANA" codeSystem="1.3.6.1.4.1.28284.6.2.2.5.1" codeSystemName="Observation liik" displayName="Analüüs"/>
+                      <statusCode code="completed"/>
+                      <effectiveTime value="20091126"/>
+                      <value xsi:type="ED">2,04</value>
+                    </observation>
+                  </entryRelationship>
+                  <referenceRange typeCode="REFV">
+                    <observationRange classCode="OBS" moodCode="EVN.CRT">
+                      <text>0,4 - 4,1</text>
+                    </observationRange>
+                  </referenceRange>
+                </observation>
+              </entryRelationship>
+              <entryRelationship typeCode="REFR">
+                <observation classCode="OBS" moodCode="EVN">
+                  <code code="ANA" codeSystem="1.3.6.1.4.1.28284.6.2.2.5.1" codeSystemName="Observation liik" displayName="Analüüs"/>
+                  <specimen typeCode="SPC">
+                    <specimenRole classCode="SPEC">
+                      <specimenPlayingEntity classCode="ENT" determinerCode="INSTANCE">
+                        <code code="5332" displayName="IGF BP3(IGF BP3)"/>
+                        <desc>µg/ml</desc>
+                      </specimenPlayingEntity>
+                    </specimenRole>
+                  </specimen>
+                  <entryRelationship typeCode="REFR">
+                    <observation classCode="OBS" moodCode="EVN">
+                      <code code="ANA" codeSystem="1.3.6.1.4.1.28284.6.2.2.5.1" codeSystemName="Observation liik" displayName="Analüüs"/>
+                      <statusCode code="completed"/>
+                      <effectiveTime value="20091127"/>
+                      <value xsi:type="ED">2,3</value>
+                    </observation>
+                  </entryRelationship>
+                  <referenceRange typeCode="REFV">
+                    <observationRange classCode="OBS" moodCode="EVN.CRT">
+                      <text>1.2 - 5.5</text>
+                    </observationRange>
+                  </referenceRange>
+                </observation>
+              </entryRelationship>
+              <entryRelationship typeCode="REFR">
+                <observation classCode="OBS" moodCode="EVN">
+                  <code code="ANA" codeSystem="1.3.6.1.4.1.28284.6.2.2.5.1" codeSystemName="Observation liik" displayName="Analüüs"/>
+                  <specimen typeCode="SPC">
+                    <specimenRole classCode="SPEC">
+                      <specimenPlayingEntity classCode="ENT" determinerCode="INSTANCE">
+                        <code code="5331" displayName="IGF-1(IGF-1)"/>
+                        <desc>ng/ml</desc>
+                      </specimenPlayingEntity>
+                    </specimenRole>
+                  </specimen>
+                  <entryRelationship typeCode="REFR">
+                    <observation classCode="OBS" moodCode="EVN">
+                      <code code="ANA" codeSystem="1.3.6.1.4.1.28284.6.2.2.5.1" codeSystemName="Observation liik" displayName="Analüüs"/>
+                      <statusCode code="completed"/>
+                      <effectiveTime value="20091127"/>
+                      <value xsi:type="ED">109</value>
+                    </observation>
+                  </entryRelationship>
+                  <referenceRange typeCode="REFV">
+                    <observationRange classCode="OBS" moodCode="EVN.CRT">
+                      <text>50 - 300</text>
+                    </observationRange>
+                  </referenceRange>
+                </observation>
+              </entryRelationship>
+            </procedure>
+          </entry>
+        </section>
+      </component>
+      <component typeCode="COMP">
+        <section classCode="DOCSECT" moodCode="EVN">
+          <code code="AMBS" codeSystem="1.3.6.1.4.1.28284.6.2.2.11.1" codeSystemName="Sektsiooni kodeering" displayName="Ambulatoorne haigusjuht"/>
+          <title>Ambulatoorne haigusjuhtum</title>
+          <entry typeCode="COMP">
+            <encounter classCode="ENC" moodCode="EVN">
+              <code code="AMB" codeSystem="1.3.6.1.4.1.28284.6.2.2.3.1" codeSystemName="Raviasutuses viibimine" displayName="ambulatoorne haigusjuht">
+                <qualifier>
+                  <value code="1" codeSystem="1.3.6.1.4.1.28284.6.2.1.32.1" codeSystemName="Visiidi tüüp" displayName="visiit"/>
+                </qualifier>
+                <qualifier>
+                  <value code="1" codeSystem="1.3.6.1.4.1.28284.6.2.1.30.1" codeSystemName="Visiidi liik" displayName="esmane"/>
+                </qualifier>
+              </code>
+              <effectiveTime value="200911251211"/>
+              <priorityCode code="1" codeSystem="1.3.6.1.4.1.28284.6.2.1.65.1" codeSystemName="Pöördumise erakorralsisus" displayName="plaaniline"/>
+            </encounter>
+          </entry>
+          <entry typeCode="COMP">
+            <encounter classCode="ENC" moodCode="EVN">
+              <code code="AMB" codeSystem="1.3.6.1.4.1.28284.6.2.2.3.1" codeSystemName="Raviasutuses viibimine" displayName="ambulatoorne haigusjuht">
+                <qualifier>
+                  <value code="1" codeSystem="1.3.6.1.4.1.28284.6.2.1.32.1" codeSystemName="Visiidi tüüp" displayName="visiit"/>
+                </qualifier>
+                <qualifier>
+                  <value code="2" codeSystem="1.3.6.1.4.1.28284.6.2.1.30.1" codeSystemName="Visiidi liik" displayName="korduv"/>
+                </qualifier>
+              </code>
+              <effectiveTime value="200912011133"/>
+              <priorityCode code="1" codeSystem="1.3.6.1.4.1.28284.6.2.1.65.1" codeSystemName="Pöördumise erakorralsisus" displayName="plaaniline"/>
+            </encounter>
+          </entry>
+        </section>
+      </component>
+    </structuredBody>
+  </component>
+</ClinicalDocument>

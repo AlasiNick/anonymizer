@@ -1,9 +1,12 @@
 <template>
   <BaseLayout>
+    <PrimaryButton @click="goToHome">Back to Home</PrimaryButton>
     <div class="anonymize">
       <div class="header">
         <h1>Anonymize Data</h1>
-        <p class="subtitle">Remove identifiers to achieve irreversible privacy protection</p>
+        <p class="subtitle">
+          Remove identifiers to achieve irreversible privacy protection
+        </p>
       </div>
 
       <div class="upload-section">
@@ -18,17 +21,18 @@
           title="About Anonymization"
           description="Anonymization removes or masks personal identifiers irreversibly, ensuring:"
           :items="[
-            'Compliance with GDPR and HIPAA',
+            'Compliance with GDPP',
             'Irreversible identity protection',
             'Risk mitigation in data breaches',
-            'Safe publishing of datasets'
+            'Safe publishing of datasets',
           ]"
         />
       </div>
 
       <FilesList
-        v-if="uploadedFiles.length > 0"
-        :files="uploadedFiles"
+        v-if="uploadedFile"
+        :file="uploadedFile"
+        :loading="loading"
         processButtonText="Start Anonymization"
         @remove-file="removeFile"
         @process="processAnonymization"
@@ -44,111 +48,123 @@
 </template>
 
 <script>
-import BaseLayout from '../layouts/BaseLayout.vue';
-import { useProjectStore } from '../stores/projectStore';
-import UploadCard from '../components/anonymization/UploadCard.vue';
-import InfoCard from '../components/anonymization/InfoCard.vue';
-import FilesList from '../components/anonymization/FilesList.vue';
-import ProjectInfoModal from '../components/anonymization/ProjectInfoModal.vue';
+import BaseLayout from "../layouts/BaseLayout.vue";
+import { useProjectStore } from "../stores/projectStore";
+import UploadCard from "../components/anonymization/UploadCard.vue";
+import InfoCard from "../components/anonymization/InfoCard.vue";
+import FilesList from "../components/anonymization/FilesList.vue";
+import ProjectInfoModal from "../components/anonymization/ProjectInfoModal.vue";
+import PrimaryButton from "../components/globals/PrimaryButton.vue";
 
 export default {
-  name: 'AnonymizeData',
+  name: "AnonymizeData",
   components: {
     BaseLayout,
     UploadCard,
     InfoCard,
     FilesList,
-    ProjectInfoModal
+    ProjectInfoModal,
+    PrimaryButton,
   },
   data() {
     return {
-      uploadedFiles: [],
-      processedContent: '',
+      uploadedFile: null,
+      processedContent: null,
       showProjectInfoModal: false,
-      newProjectName: '',
-      newProjectDescription: ''
-    }
+      loading: false,
+    };
   },
   methods: {
-    triggerFileInput() {
-      document.getElementById('file-upload-anon').click();
-    },
-    handleFileUpload(event) {
-      const files = Array.from(event.target.files);
-      this.uploadedFiles.push(...files);
-    },
-    removeFile(file) {
-      const index = this.uploadedFiles.indexOf(file);
-      if (index > -1) {
-        this.uploadedFiles.splice(index, 1);
-      }
-    },
-    processAnonymization() {
-      if (this.uploadedFiles.length === 0) {
-        alert("Please upload at least one file.");
+    async processAnonymization() {
+      console.log("PROCESS TRIGGERED");
+
+      if (!this.uploadedFile) {
+        alert("Please upload XML file.");
         return;
       }
 
-      const formData = new FormData();
-      const isSingleFile = this.uploadedFiles.length === 1;
+      try {
+        this.loading = true;
 
-      if (isSingleFile) {
-        formData.append("file", this.uploadedFiles[0]);
-      } else {
-        const baseType = this.getFileExtension(this.uploadedFiles[0]);
-        const mismatch = this.uploadedFiles.some(file => this.getFileExtension(file) !== baseType);
+        const api = (await import("../services/api")).default;
 
-        if (mismatch) {
-          alert("All uploaded files must have the same extension (.json or .xml).");
-          return;
-        }
+        const base64Content = await this.fileToBase64(this.uploadedFile);
 
-        this.uploadedFiles.forEach(file => {
-          formData.append("files", file);
+        await api.downloadUnmappedFieldsCsv({
+          fileName: this.uploadedFile.name,
+          base64Content,
         });
+
+        alert("CSV downloaded successfully!");
+      } catch (error) {
+        console.error(error);
+        alert(error.message || "Failed to process XML");
+      } finally {
+        this.loading = false;
+      }
+    },
+    triggerFileInput() {
+      document.getElementById("file-upload-anon").click();
+    },
+    goToHome() {
+      this.$router.push({ path: "/" });
+    },
+    handleFileUpload(event) {
+      const file = event.target.files?.[0];
+
+      if (!file) {
+        return;
       }
 
-      formData.append("processType", "anonymize");
+      if (!file.name.toLowerCase().endsWith(".xml")) {
+        alert("Only XML files are allowed.");
+        return;
+      }
 
-      const endpoint = isSingleFile ? "/api/upload/single" : "/api/upload/multiple";
+      this.uploadedFile = file;
+    },
+    async fileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
 
-      fetch(`http://localhost:8080${endpoint}`, {
-        method: "POST",
-        body: formData,
-      })
-        .then(response => response.text())
-        .then(result => {
-          this.processedContent = result;
-          this.showProjectInfoModal = true;
-          alert("File(s) processed successfully!");
-        })
-        .catch(error => {
-          console.error("Error uploading file(s):", error);
-          alert("Error uploading file(s): " + error.message);
-        });
+        reader.readAsDataURL(file);
+
+        reader.onload = () => {
+          const result = reader.result;
+
+          const base64 = result.split(",")[1];
+
+          resolve(base64);
+        };
+
+        reader.onerror = reject;
+      });
+    },
+    removeFile() {
+      this.uploadedFile = null;
     },
     getFileExtension(file) {
-      return file.name.split('.').pop().toLowerCase();
+      return file.name.split(".").pop().toLowerCase();
     },
     confirmProjectCreation({ name, description }) {
       const store = useProjectStore();
       const isSingleFile = this.uploadedFiles.length === 1;
 
       store.addProject({
-        name: name || (isSingleFile ? this.uploadedFiles[0].name : `${this.uploadedFiles.length} files`),
-        description: description || 'No description provided.',
-        files: this.uploadedFiles,
+        name: name || this.uploadedFile.name,
+        description: description || "No description provided.",
+        files: [this.uploadedFile],
         processedOutput: this.processedContent,
         createdAt: new Date(),
-        status: 'active',
-        filesCount: this.uploadedFiles.length
+        status: "active",
+        filesCount: 1,
       });
 
       this.showProjectInfoModal = false;
-      this.$router.push({ path: '/projects' });
-    }
-  }
-}
+      this.$router.push({ path: "/projects" });
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

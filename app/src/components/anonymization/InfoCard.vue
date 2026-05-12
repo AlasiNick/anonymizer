@@ -8,7 +8,9 @@
     <div class="supported-formats">
       <h4>Supported Formats</h4>
       <div class="format-tags">
-        <span class="tag" v-for="(format, index) in formats" :key="index">{{ format }}</span>
+        <span class="tag" v-for="(format, index) in formats" :key="index">{{
+          format
+        }}</span>
       </div>
     </div>
   </div>
@@ -16,26 +18,26 @@
 
 <script>
 export default {
-  name: 'InfoCard',
+  name: "InfoCard",
   props: {
     title: {
       type: String,
-      required: true
+      required: true,
     },
     description: {
       type: String,
-      required: true
+      required: true,
     },
     items: {
       type: Array,
-      required: true
+      required: true,
     },
     formats: {
       type: Array,
-      default: () => ['CSV', 'JSON', 'XML', 'Excel']
-    }
-  }
-}
+      default: () => ["XML"],
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -63,8 +65,8 @@ export default {
       position: relative;
 
       &::before {
-        content: '✓';
-        color: #3865F2;
+        content: "✓";
+        color: #3865f2;
         position: absolute;
         left: 0;
       }
@@ -90,8 +92,8 @@ export default {
   gap: 8px;
 
   .tag {
-    background: #F5F8FF;
-    color: #3865F2;
+    background: #f5f8ff;
+    color: #3865f2;
     padding: 4px 12px;
     border-radius: 16px;
     font-size: 0.9rem;
