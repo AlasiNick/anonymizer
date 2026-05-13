@@ -39,7 +39,3 @@ pnpm dev
 ## Pseudonymization Page:
 
 ![Anonymization Page With File](photos/anonym_page_file.png)
-
-## Project Page:
-
-![projects](photos/projects.png)
