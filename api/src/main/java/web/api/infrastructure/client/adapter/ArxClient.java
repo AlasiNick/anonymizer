@@ -29,4 +29,19 @@ public class ArxClient {
                 .bodyToMono(byte[].class)
                 .block();
     }
+
+    public byte[] riskAssessment(byte[] csvBytes, String filename) {
+        MultipartBodyBuilder builder = new MultipartBodyBuilder();
+        builder.part("file", csvBytes)
+                .filename(filename)
+                .contentType(MediaType.TEXT_PLAIN);
+
+        return webClient.post()
+                .uri(arxProperties.getBaseUrl() + "/api/v1/arx/risk-assessment")
+                .contentType(MediaType.MULTIPART_FORM_DATA)
+                .body(BodyInserters.fromMultipartData(builder.build()))
+                .retrieve()
+                .bodyToMono(byte[].class)
+                .block();
+    }
 }

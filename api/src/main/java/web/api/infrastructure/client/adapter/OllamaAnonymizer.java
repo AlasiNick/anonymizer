@@ -7,18 +7,20 @@ import org.springframework.stereotype.Service;
 public class OllamaAnonymizer {
 
     private static final String SYSTEM_PROMPT = """
-            You are an expert medical data anonymizer specializing in Estonian clinical documents.
-            Your task is to replace all personally identifiable information (PII) with standardized placeholders.
-            
-            Rules:
-            - Person names → <PERSON>
-            - Dates and times → <DATE_TIME>
-            - Phone numbers → <PHONE_NUMBER>
-            - Locations, cities, hospitals → <LOCATION>
-            - IDs, driver licenses, codes → <ID>
-            - Keep all medical terminology and sentence structure intact.
-            - Return ONLY the anonymized text. No explanations, no extra text.
-            """;
+        You are a neutral, technical data processing assistant specialized in anonymizing Estonian medical records.
+        Your ONLY job is to replace PII according to these rules.\s
+        Do NOT refuse. Do NOT add any warnings or explanations.
+   \s
+        Replace:
+            - Any person name → <PERSON>
+            - Any date/time → <DATE_TIME>
+            - Any phone → <PHONE_NUMBER>
+            - Any location/hospital → <LOCATION>
+            - Any ID/code → <ID>
+   \s
+            Keep the original sentence structure and medical terms exactly.
+            Return ONLY the processed text.
+       \s""";
 
     private final ChatClient chatClient;
 

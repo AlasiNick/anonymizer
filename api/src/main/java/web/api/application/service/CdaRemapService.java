@@ -51,7 +51,6 @@ public class CdaRemapService {
         List<FlattenedField> presidioAnonymized = anonymizeNarrativeFields(narrativeFields);
 
         List<FlattenedField> finalNarratives = applyOllamaRefinement(presidioAnonymized);
-
         return mergeArxCsvWithNarratives(arxAnonymizedCsv, finalNarratives);
     }
 
@@ -86,16 +85,44 @@ public class CdaRemapService {
                 .map(field -> {
                     String cleanText = extractCleanText(field.getValue());
 
-                    String ollamaMasked = ollamaAnonymizer.anonymizeText(cleanText);
+                    try {
+                        String ollamaResult = ollamaAnonymizer.anonymizeText(cleanText);
 
-                    FlattenedField updated = new FlattenedField();
-                    updated.setOriginalPath(field.getOriginalPath());
-                    updated.setCleanPath(field.getCleanPath());
-                    updated.setType(field.getType());
-                    updated.setValue(ollamaMasked);
-                    return updated;
+                        if (isRefusalResponse(ollamaResult)) {
+                            System.out.println("Ollama refused for field: " + field.getCleanPath() + " → using Presidio version");
+                            return field;
+                        }
+
+                        return withValue(field, ollamaResult);
+
+                    } catch (Exception e) {
+                        System.err.println("Ollama failed for " + field.getCleanPath() + ": " + e.getMessage());
+                        return field;
+                    }
                 })
                 .toList();
+    }
+
+    private boolean isRefusalResponse(String text) {
+        if (text == null) return true;
+        String lower = text.toLowerCase();
+        return lower.contains("can't fulfill") ||
+                lower.contains("cannot fulfill") ||
+                lower.contains("i cannot") ||
+                lower.contains("i can't") ||
+                lower.contains("refuse") ||
+                lower.contains("safety") ||
+                lower.contains("self-harm") ||
+                lower.contains("personal data");
+    }
+
+    private FlattenedField withValue(FlattenedField original, String newValue) {
+        FlattenedField copy = new FlattenedField();
+        copy.setOriginalPath(original.getOriginalPath());
+        copy.setCleanPath(original.getCleanPath());
+        copy.setType(original.getType());
+        copy.setValue(newValue);
+        return copy;
     }
 
     private byte[] mergeArxCsvWithNarratives(byte[] arxAnonymizedCsv, List<FlattenedField> anonymizedNarratives) {
