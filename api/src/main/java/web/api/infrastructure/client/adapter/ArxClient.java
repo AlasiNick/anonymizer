@@ -16,7 +16,6 @@ public class ArxClient {
     private final ArxProperties arxProperties;
 
     public byte[] anonymize(byte[] csvBytes, String filename) {
-
         MultipartBodyBuilder builder = new MultipartBodyBuilder();
         builder.part("file", csvBytes)
                 .filename(filename)

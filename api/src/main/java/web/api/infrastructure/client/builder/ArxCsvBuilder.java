@@ -3,11 +3,13 @@ package web.api.infrastructure.client.builder;
 import com.opencsv.CSVWriter;
 import org.springframework.stereotype.Service;
 import web.api.domain.model.FlattenedField;
+import web.api.utility.CsvUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -18,9 +20,7 @@ public class ArxCsvBuilder {
     public byte[] generateArxReadyCsv(List<FlattenedField> structuredFields) {
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
              CSVWriter writer = new CSVWriter(new OutputStreamWriter(baos, StandardCharsets.UTF_8))) {
-
-            baos.write(0xEF); baos.write(0xBB); baos.write(0xBF);
-
+            CsvUtils.writeBom(baos);
             List<String> columns = structuredFields.stream()
                     .map(FlattenedField::getCleanPath)
                     .distinct()
@@ -32,7 +32,8 @@ public class ArxCsvBuilder {
                     .collect(Collectors.toMap(
                             FlattenedField::getCleanPath,
                             FlattenedField::getValue,
-                            (v1, v2) -> v1));
+                            (v1, v2) -> v1,
+                            LinkedHashMap::new));
 
             String[] row = columns.stream()
                     .map(col -> valueMap.getOrDefault(col, ""))

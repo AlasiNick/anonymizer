@@ -52,4 +52,13 @@ public class CdaController {
                 .contentType(MediaType.parseMediaType("text/csv"))
                 .body(anonymized);
     }
+
+    @PostMapping(value = "/anonymize/hybrid", produces = "text/csv")
+    public ResponseEntity<byte[]> anonymizeHybrid(@RequestBody UploadXmlRequest request) throws Exception {
+        byte[] anonymized = cdaRemapService.processHybridAnonymization(request);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=anonymized.csv")
+                .contentType(MediaType.parseMediaType("text/csv"))
+                .body(anonymized);
+    }
 }

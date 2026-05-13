@@ -7,5 +7,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "app.presidio")
 public class PresidioProperties {
 
-    private String baseUrl;
+    private String anonymizerUrl;
+    private String analyzerUrl;
 }

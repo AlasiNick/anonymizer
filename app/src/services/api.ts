@@ -40,11 +40,14 @@ const api = {
   },
 
   async downloadUnmappedFieldsCsv(payload: UploadXmlRequest): Promise<void> {
-    const response = await fetch(`${API_BASE_URL}/api/v1/cda/anonymize`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+    const response = await fetch(
+      `${API_BASE_URL}/api/v1/cda/anonymize/hybrid`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      },
+    );
 
     if (!response.ok) {
       const errorData = await response.text();
