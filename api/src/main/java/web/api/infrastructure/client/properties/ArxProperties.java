@@ -1,4 +1,4 @@
-package web.api.web.config;
+package web.api.infrastructure.client.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

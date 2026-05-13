@@ -6,8 +6,10 @@ import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import web.api.domain.model.FlattenedField;
 import web.api.domain.model.type.FieldType;
+import web.api.infrastructure.client.adapter.ArxClient;
 import web.api.infrastructure.mapper.XmlFlattener;
 import web.api.infrastructure.parser.SecureXmlParser;
+import web.api.infrastructure.client.builder.ArxCsvBuilder;
 import web.api.infrastructure.parser.XmlValidationService;
 import web.api.web.dto.request.UploadXmlRequest;
 import web.api.web.dto.response.FieldResponse;
@@ -25,6 +27,8 @@ public class CdaRemapService {
 
     private final XmlValidationService validationService;
     private final XmlFlattener xmlFlattener;
+    private final ArxCsvBuilder arxCsvBuilder;
+    private final ArxClient arxClient;
 
     public FlattenedResponse process(UploadXmlRequest request) throws Exception {
         validationService.validateExtension(request.getFileName());
@@ -52,6 +56,23 @@ public class CdaRemapService {
         List<FlattenedField> fields = xmlFlattener.flatten(document);
 
         return generateCsv(fields);
+    }
+
+    public byte[] prepareStructuredCsvForArx(UploadXmlRequest request) throws Exception {
+        validationService.validateExtension(request.getFileName());
+        byte[] xmlBytes = validationService.validateAndDecodeBase64(request.getBase64Content());
+        validationService.validateXml(xmlBytes);
+
+        Document document = SecureXmlParser.createDocument(xmlBytes);
+        List<FlattenedField> allFields = xmlFlattener.flatten(document);
+
+        List<FlattenedField> structured = filterStructuredFields(allFields);
+        return arxCsvBuilder.generateArxReadyCsv(structured);
+    }
+
+    public byte[] processAndAnonymize(UploadXmlRequest request) throws Exception {
+        byte[] csvForArx = prepareStructuredCsvForArx(request);
+        return arxClient.anonymize(csvForArx, "anonymized.csv");
     }
 
     private byte[] generateCsv(List<FlattenedField> fields) {

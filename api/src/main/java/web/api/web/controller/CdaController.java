@@ -26,16 +26,30 @@ public class CdaController {
         return cdaRemapService.process(request);
     }
 
-    @PostMapping("/csv")
-    public ResponseEntity<byte[]> getUnmappedFieldsCsv(@Valid @RequestBody UploadXmlRequest request) throws Exception {
-        byte[] csvContent = cdaRemapService.generateUnmappedFieldsCsv(request);
-
+    @PostMapping(value = "/unmapped-csv", produces = "text/csv")
+    public ResponseEntity<byte[]> unmappedCsv(@RequestBody UploadXmlRequest request) throws Exception {
+        byte[] csv = cdaRemapService.generateUnmappedFieldsCsv(request);
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION,
-                        ContentDisposition.attachment()
-                                .filename("unmapped_fields.csv")
-                                .build().toString())
-                .contentType(MediaType.parseMediaType("text/csv;charset=UTF-8"))
-                .body(csvContent);
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=unmapped-fields.csv")
+                .contentType(MediaType.parseMediaType("text/csv"))
+                .body(csv);
+    }
+
+    @PostMapping(value = "/arx-ready-csv", produces = "text/csv")
+    public ResponseEntity<byte[]> arxReadyCsv(@RequestBody UploadXmlRequest request) throws Exception {
+        byte[] csv = cdaRemapService.prepareStructuredCsvForArx(request);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=arx-ready.csv")
+                .contentType(MediaType.parseMediaType("text/csv"))
+                .body(csv);
+    }
+
+    @PostMapping(value = "/anonymize", produces = "text/csv")
+    public ResponseEntity<byte[]> anonymize(@RequestBody UploadXmlRequest request) throws Exception {
+        byte[] anonymized = cdaRemapService.processAndAnonymize(request);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=anonymized.csv")
+                .contentType(MediaType.parseMediaType("text/csv"))
+                .body(anonymized);
     }
 }
