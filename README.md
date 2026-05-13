@@ -1,14 +1,14 @@
-\# \*\*GDPR‑Compliant Anonymization of HL7 CDA Health Data in Estonia\*\*  
+\# GDPR‑Compliant Anonymization of HL7 CDA Health Data in Estonia
 
-\### \*A Hybrid Approach Using ARX and AI‑Based De‑identification\*
-
-
-
-\---
+\### A Hybrid Approach Using ARX and AI‑Based De‑identification
 
 
 
-\### \*\*\*Overview\*\*\*
+
+
+
+
+\### Overview
 
 
 
@@ -16,11 +16,11 @@ This project implements a hybrid anonymization pipeline for \*\*HL7 CDA\*\* heal
 
 
 
-\- \*\*\[ARX]\*\* — structured‑data anonymization (k‑anonymity, l‑diversity, t‑closeness)  
+\- \[ARX] — structured‑data anonymization (k‑anonymity, l‑diversity, t‑closeness)  
 
-\- \*\*\[Presidio]\*\* — AI‑based PII detection for narrative text  
+\- \[Presidio] — AI‑based PII detection for narrative text  
 
-\- \*\*Schema‑aware CDA processing\*\* — routes structured and unstructured content to the correct anonymizer
+\- Schema‑aware CDA processing — routes structured and unstructured content to the correct anonymizer
 
 
 
@@ -28,41 +28,41 @@ The system is designed to support \*\*GDPR‑compliant de‑identification\*\* o
 
 
 
-\---
 
 
 
-\## \*\*Tech Stack\*\*
+
+\## Tech Stack
 
 
 
-\### \*\*Customer Gateway\*\*
+\### Customer Gateway
 
-\- \*\*Spring Boot 4.0.5\*\*  
+\- Spring Boot 4.0.5\*\*
 
-\- \*\*Java 25\*\*
-
-
-
-\### \*\*ARX Anonymization Service\*\*
-
-\- \*\*Spring Boot 3.5.10\*\*  
-
-\- \*\*Java 21\*\*  
-
-\- \*\*ARX 3.9.2\*\*
+\- Java 25
 
 
 
-\### \*\* Frontend\*\*
+\### ARX Anonymization Service
 
-\- \*\*Vue 3\*\*  
+\- Spring Boot 3.5.10
 
-\- \*\*Vite\*\*
+\- Java 21
+
+\- ARX 3.9.2
 
 
 
-\### \*\* Presidio Integration\*\*
+\### Frontend
+
+\- Vue 3 
+
+\- Vite
+
+
+
+\### Presidio Integration
 
 Presidio must be added manually from the official repository:  
 
@@ -70,11 +70,9 @@ https://github.com/microsoft/presidio
 
 
 
-\---
 
 
-
-\## \*\*Architecture Overview\*\*
+\## Architecture Overview
 
 
 
@@ -100,17 +98,15 @@ CDA XML
 
 
 
-\---
 
 
 
-\## \*\*Thesis\*\*
+
+\## Thesis
 
 \*\*GDPR‑Compliant Anonymization of HL7 CDA Health Data in Estonia:  
 
 A Hybrid Approach Using ARX and AI‑Based De‑identification\*\*
 
 
-
-\---
 
