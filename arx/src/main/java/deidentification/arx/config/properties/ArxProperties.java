@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "app.arx")
 public class ArxProperties {
-    private int k ;
+
+    private int k;
     private double suppressionLimit;
 }
