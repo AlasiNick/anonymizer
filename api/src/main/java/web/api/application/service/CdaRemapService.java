@@ -85,6 +85,7 @@ public class CdaRemapService {
         List<String> finalColumns = new ArrayList<>(Arrays.asList(arxHeader));
         List<FlattenedField> narrativesToAdd = anonymizedNarratives.stream()
                 .filter(n -> !finalColumns.contains(n.getCleanPath()))
+                .map(this::withCleanText)
                 .toList();
 
         finalColumns.addAll(narrativesToAdd.stream()
@@ -178,5 +179,39 @@ public class CdaRemapService {
         } catch (IOException e) {
             throw new RuntimeException("Failed to generate CSV", e);
         }
+    }
+
+    private FlattenedField withCleanText(FlattenedField original) {
+        FlattenedField copy = new FlattenedField();
+        copy.setOriginalPath(original.getOriginalPath());
+        copy.setCleanPath(original.getCleanPath());
+        copy.setType(original.getType());
+        copy.setValue(extractCleanText(original.getValue()));
+        return copy;
+    }
+
+    private String extractCleanText(String rawValue) {
+        if (rawValue == null || rawValue.trim().isEmpty()) {
+            return rawValue;
+        }
+
+        if (!rawValue.trim().startsWith("{")) {
+            return rawValue;
+        }
+
+        try {
+            java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(
+                    "\"text\"\\s*:\\s*\"(.*?)\"", java.util.regex.Pattern.DOTALL);
+            java.util.regex.Matcher matcher = pattern.matcher(rawValue);
+
+            if (matcher.find()) {
+                String text = matcher.group(1);
+                return text.replace("\\n", "\n")
+                        .replace("\\\"", "\"")
+                        .replace("\\\\", "\\");
+            }
+        } catch (Exception _) {}
+
+        return rawValue;
     }
 }

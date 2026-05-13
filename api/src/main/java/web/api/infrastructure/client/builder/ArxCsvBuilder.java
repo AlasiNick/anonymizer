@@ -28,6 +28,7 @@ public class ArxCsvBuilder {
                     .toList();
 
             writer.writeNext(columns.toArray(new String[0]));
+
             Map<String, String> valueMap = structuredFields.stream()
                     .collect(Collectors.toMap(
                             FlattenedField::getCleanPath,
