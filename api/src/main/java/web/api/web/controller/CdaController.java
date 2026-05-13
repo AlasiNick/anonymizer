@@ -53,12 +53,13 @@ public class CdaController {
                 .body(anonymized);
     }
 
-    @PostMapping(value = "/anonymize/hybrid", produces = "text/csv")
+    @PostMapping(value = "/anonymize/hybrid", produces = "application/zip")
     public ResponseEntity<byte[]> anonymizeHybrid(@RequestBody UploadXmlRequest request) throws Exception {
-        byte[] anonymized = cdaRemapService.processHybridAnonymization(request);
+        byte[] zipBytes = cdaRemapService.processHybridAnonymization(request);
+
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=anonymized.csv")
-                .contentType(MediaType.parseMediaType("text/csv"))
-                .body(anonymized);
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=anonymization_result.zip")
+                .contentType(MediaType.parseMediaType("application/zip"))
+                .body(zipBytes);
     }
 }

@@ -95,7 +95,9 @@ export default {
           base64Content,
         });
 
-        alert("CSV downloaded successfully!");
+        alert(
+          "ZIP with anonymized data and risk assessment downloaded successfully!",
+        );
       } catch (error) {
         console.error(error);
         alert(error.message || "Failed to process XML");

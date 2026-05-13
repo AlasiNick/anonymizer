@@ -61,7 +61,7 @@ const api = {
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `unmapped_fields_${new Date().toISOString().slice(0, 10)}.csv`;
+    link.download = `anonymization_result_${new Date().toISOString().slice(0, 10)}.zip`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

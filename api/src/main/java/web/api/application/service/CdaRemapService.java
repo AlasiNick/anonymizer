@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 @Service
 @RequiredArgsConstructor
@@ -51,7 +53,10 @@ public class CdaRemapService {
         List<FlattenedField> presidioAnonymized = anonymizeNarrativeFields(narrativeFields);
 
         List<FlattenedField> finalNarratives = applyOllamaRefinement(presidioAnonymized);
-        return mergeArxCsvWithNarratives(arxAnonymizedCsv, finalNarratives);
+        byte[] finalAnonymizedCsv = mergeArxCsvWithNarratives(arxAnonymizedCsv, finalNarratives);
+        byte[] riskReport = arxClient.riskAssessment(finalAnonymizedCsv, "risk_input.csv");
+
+        return createZipWithBothFiles(finalAnonymizedCsv, riskReport);
     }
 
     public FlattenedResponse process(UploadXmlRequest request) throws Exception {
@@ -78,6 +83,23 @@ public class CdaRemapService {
     public byte[] processAndAnonymize(UploadXmlRequest request) throws Exception {
         byte[] csvForArx = prepareStructuredCsvForArx(request);
         return arxClient.anonymize(csvForArx, "anonymized.csv");
+    }
+
+    private byte[] createZipWithBothFiles(byte[] anonymizedCsv, byte[] riskReport) throws IOException {
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
+             ZipOutputStream zos = new ZipOutputStream(baos)) {
+            ZipEntry anonymizedEntry = new ZipEntry("anonymized_data.csv");
+            zos.putNextEntry(anonymizedEntry);
+            zos.write(anonymizedCsv);
+            zos.closeEntry();
+            ZipEntry riskEntry = new ZipEntry("risk_assessment_report.csv");
+            zos.putNextEntry(riskEntry);
+            zos.write(riskReport);
+            zos.closeEntry();
+
+            zos.finish();
+            return baos.toByteArray();
+        }
     }
 
     private List<FlattenedField> applyOllamaRefinement(List<FlattenedField> presidioFields) {
