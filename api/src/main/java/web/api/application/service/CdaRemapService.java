@@ -8,6 +8,7 @@ import web.api.application.service.helpers.dto.ProcessingResult;
 import web.api.domain.model.FlattenedField;
 import web.api.domain.model.type.FieldType;
 import web.api.infrastructure.client.adapter.ArxClient;
+import web.api.infrastructure.client.adapter.OllamaAnonymizer;
 import web.api.infrastructure.client.adapter.PresidioClient;
 import web.api.infrastructure.client.builder.ArxCsvBuilder;
 import web.api.infrastructure.client.builder.CsvRemapperBuilder;
@@ -30,6 +31,7 @@ public class CdaRemapService {
     private final ArxCsvBuilder arxCsvBuilder;
     private final ArxClient arxClient;
     private final PresidioClient presidioClient;
+    private final OllamaAnonymizer ollamaAnonymizer;
 
     /**
      * MAIN LOGIC
@@ -40,12 +42,17 @@ public class CdaRemapService {
     public byte[] processHybridAnonymization(UploadXmlRequest request) throws Exception {
         ProcessingResult result = documentProcessor.process(request);
         List<FlattenedField> allFields = result.fields();
+
         List<FlattenedField> structuredFields = filterStructuredFields(allFields);
         byte[] structuredCsv = arxCsvBuilder.generateArxReadyCsv(structuredFields);
         byte[] arxAnonymizedCsv = arxClient.anonymize(structuredCsv, "structured.csv");
+
         List<FlattenedField> narrativeFields = filterNarrativeFields(allFields);
-        List<FlattenedField> anonymizedNarratives = anonymizeNarrativeFields(narrativeFields);
-        return mergeArxCsvWithNarratives(arxAnonymizedCsv, anonymizedNarratives);
+        List<FlattenedField> presidioAnonymized = anonymizeNarrativeFields(narrativeFields);
+
+        List<FlattenedField> finalNarratives = applyOllamaRefinement(presidioAnonymized);
+
+        return mergeArxCsvWithNarratives(arxAnonymizedCsv, finalNarratives);
     }
 
     public FlattenedResponse process(UploadXmlRequest request) throws Exception {
@@ -72,6 +79,23 @@ public class CdaRemapService {
     public byte[] processAndAnonymize(UploadXmlRequest request) throws Exception {
         byte[] csvForArx = prepareStructuredCsvForArx(request);
         return arxClient.anonymize(csvForArx, "anonymized.csv");
+    }
+
+    private List<FlattenedField> applyOllamaRefinement(List<FlattenedField> presidioFields) {
+        return presidioFields.stream()
+                .map(field -> {
+                    String cleanText = extractCleanText(field.getValue());
+
+                    String ollamaMasked = ollamaAnonymizer.anonymizeText(cleanText);
+
+                    FlattenedField updated = new FlattenedField();
+                    updated.setOriginalPath(field.getOriginalPath());
+                    updated.setCleanPath(field.getCleanPath());
+                    updated.setType(field.getType());
+                    updated.setValue(ollamaMasked);
+                    return updated;
+                })
+                .toList();
     }
 
     private byte[] mergeArxCsvWithNarratives(byte[] arxAnonymizedCsv, List<FlattenedField> anonymizedNarratives) {
