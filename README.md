@@ -2,7 +2,7 @@
 
 ### A Hybrid Approach Using ARX and AI‑Based De‑identification
 
-### Overview
+## Overview
 
 This project implements a hybrid anonymization pipeline for ```HL7 CDA``` health documents, combining:
 
@@ -12,7 +12,7 @@ This project implements a hybrid anonymization pipeline for ```HL7 CDA``` health
 
 
 
-The system is designed to support \*\*GDPR‑compliant de‑identification\*\* of Estonian HL7 CDA documents (HL7‑EE‑DL‑Ext).
+The system is designed to support ```GDPR‑compliant de‑identification``` of Estonian``` HL7 CDA``` documents (HL7‑EE‑DL‑Ext).
 
 
 ## Tech Stack
@@ -35,11 +35,10 @@ Presidio must be added manually from the official repository:
 https://github.com/microsoft/presidio
 
 ## Architecture Overview
-
-CDA XML
-├── Structured fields → ARX CSV anonymization  
-├── Narrative text → Presidio PII detection 
-└── Merge → Unified anonymized dataset → ARX risk assessment
+### CDA XML:
+  a. Structured fields → ARX CSV anonymization  
+  b. Narrative text → Presidio PII detection  
+  c. Merge → Unified anonymized dataset → ARX risk assessment  
 
 - CDA parsed using XSD‑aware logic  
 - Structured → ARX  
@@ -48,7 +47,7 @@ CDA XML
 - Final GDPR risk evaluation performed
 
 ## Thesis
-GDPR‑Compliant Anonymization of HL7 CDA Health Data in Estonia:  A Hybrid Approach Using ARX and AI‑Based De‑identification```
+GDPR‑Compliant Anonymization of HL7 CDA Health Data in Estonia:  A Hybrid Approach Using ARX and AI‑Based De‑identification
 
 
 
