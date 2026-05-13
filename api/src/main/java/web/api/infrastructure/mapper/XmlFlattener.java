@@ -24,7 +24,7 @@ public class XmlFlattener {
             "author", "custodian", "representedOrganization", "assignedCustodian",
             "assignedPerson", "patientPerson", "as", "of", "entryRelationship"
     );
-    
+
     private static final Map<String, String> CONTEXT_ANCHORS = Map.of(
             "recordTarget",   "patient",
             "patientRole",    "patient",
@@ -59,7 +59,7 @@ public class XmlFlattener {
     public List<FlattenedField> flatten(Document document) {
         List<FlattenedField> fields = new ArrayList<>();
         Element root = document.getDocumentElement();
-        flattenNode(root, "", "", "", fields);  // added contextPrefix param
+        flattenNode(root, "", "", "", fields);
         System.out.println("Total fields flattened: " + fields.size());
         return fields;
     }
@@ -86,7 +86,7 @@ public class XmlFlattener {
                 field.setOriginalPath(newOriginal);
                 field.setCleanPath(newClean);
                 field.setValue(value);
-                field.setType(classify(newClean, value));
+                field.setType(classify(newClean));
                 fields.add(field);
             }
             return;
@@ -161,8 +161,17 @@ public class XmlFlattener {
         return colon >= 0 ? nodeName.substring(colon + 1) : nodeName;
     }
 
-    private FieldType classify(String path, String value) {
+    private FieldType classify(String path) {
         String lower = path.toLowerCase();
+        if (lower.startsWith("patient_") && (lower.contains("id") || lower.contains("family") || lower.contains("given"))) {
+            return FieldType.DIRECT_IDENTIFIER;
+        }
+        if (lower.startsWith("patient_") && (lower.contains("address") || lower.contains("birth") || lower.contains("gender"))) {
+            return FieldType.QUASI_IDENTIFIER;
+        }
+        if (lower.startsWith("author_") || lower.startsWith("organization_")) {
+            return FieldType.SENSITIVE;
+        }
         if (lower.contains("id") || lower.contains("isikukood") || lower.contains("family") || lower.contains("given")) {
             return FieldType.DIRECT_IDENTIFIER;
         }

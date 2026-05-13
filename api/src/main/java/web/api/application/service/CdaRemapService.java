@@ -81,6 +81,14 @@ public class CdaRemapService {
         }
     }
 
+    private List<FlattenedField> filterStructuredFields(List<FlattenedField> fields) {
+        return fields.stream()
+                .filter(field ->
+                        field.getType() != FieldType.UNKNOWN &&
+                                field.getType() != FieldType.NARRATIVE
+                ).toList();
+    }
+
     private FieldResponse mapToFieldResponse(FlattenedField field) {
         FieldResponse resp = new FieldResponse();
         resp.setPath(field.getDisplayPath());
