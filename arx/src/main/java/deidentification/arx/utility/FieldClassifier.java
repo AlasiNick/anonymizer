@@ -8,16 +8,21 @@ public class FieldClassifier {
 
     public FieldType classify(String path) {
         String lower = path.toLowerCase().trim();
+
         if (lower.contains("id") || lower.contains("isikukood") ||
                 lower.contains("family") || lower.contains("given")) {
             return FieldType.DIRECT_IDENTIFIER;
         }
 
-        if (lower.contains("birth") || lower.contains("birthdate") || lower.contains("dateofbirth") ||
-                lower.contains("gender") ||
-                lower.contains("address") || lower.contains("addr") ||
-                lower.contains("county") || lower.contains("city") ||
-                lower.contains("postal")) {
+        if (lower.contains("address") || lower.contains("addr") ||
+                lower.contains("street") || lower.contains("streetaddressline") ||
+                lower.contains("housenumber") || lower.contains("postal") ||
+                lower.contains("city") || lower.contains("county") ||
+                lower.contains("precinct")) {
+            return FieldType.QUASI_IDENTIFIER;
+        }
+
+        if (lower.contains("gender") || lower.contains("birthdate") || lower.contains("birth")) {
             return FieldType.QUASI_IDENTIFIER;
         }
 
