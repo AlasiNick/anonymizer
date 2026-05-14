@@ -1,4 +1,4 @@
-package web.api.domain.model.type;
+package deidentification.arx.domain.type;
 
 public enum FieldType {
     DIRECT_IDENTIFIER,

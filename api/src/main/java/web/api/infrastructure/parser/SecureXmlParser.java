@@ -14,7 +14,6 @@ public class SecureXmlParser {
     public static Document createDocument(byte[] xmlBytes) throws Exception {
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-
         factory.setNamespaceAware(true);
 
         factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);

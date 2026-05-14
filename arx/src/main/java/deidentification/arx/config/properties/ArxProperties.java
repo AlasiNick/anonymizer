@@ -10,5 +10,6 @@ import org.springframework.stereotype.Component;
 public class ArxProperties {
 
     private int k;
+    private int l;
     private double suppressionLimit;
 }

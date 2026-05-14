@@ -2,10 +2,7 @@ package web.api.infrastructure.mapper;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.*;
 import web.api.domain.model.FlattenedField;
 import web.api.domain.model.type.FieldType;
 
@@ -26,15 +23,15 @@ public class XmlFlattener {
     );
 
     private static final Map<String, String> CONTEXT_ANCHORS = Map.of(
-            "recordTarget",   "patient",
-            "patientRole",    "patient",
-            "patientPerson",  "patient",
+            "recordTarget", "patient",
+            "patientRole", "patient",
+            "patientPerson", "patient",
             "assignedAuthor", "author",
             "assignedPerson", "author",
-            "custodian",      "custodian",
+            "custodian", "custodian",
             "assignedCustodian", "custodian",
-            "representedOrganization",         "organization",
-            "representedCustodianOrganization","organization",
+            "representedOrganization", "organization",
+            "representedCustodianOrganization", "organization",
             "encompassingEncounter", "encounter"
     );
 
@@ -53,7 +50,9 @@ public class XmlFlattener {
             Map.entry("thead", "header"),
             Map.entry("tr", "row"),
             Map.entry("td", "cell"),
-            Map.entry("th", "headerCell")
+            Map.entry("th", "headerCell"),
+            Map.entry("birthTime", "birthdate"),
+            Map.entry("administrativeGenderCode", "gender")
     );
 
     public List<FlattenedField> flatten(Document document) {
@@ -66,16 +65,41 @@ public class XmlFlattener {
 
     private void flattenNode(Node node, String originalPath, String cleanPath,
                              String contextPrefix, List<FlattenedField> fields) {
-        if (node.getNodeType() != Node.ELEMENT_NODE) return;
+        if (node.getNodeType() != Node.ELEMENT_NODE) {
+            return;
+        }
 
         String nodeName = sanitizeNodeName(node.getNodeName());
         String newOriginal = buildPath(originalPath, nodeName);
-
         String newContext = CONTEXT_ANCHORS.getOrDefault(nodeName, contextPrefix);
-
         String newClean = cleanPathsEnabled
                 ? buildCleanPath(cleanPath, nodeName, newContext)
                 : newOriginal;
+
+        NamedNodeMap attrs = node.getAttributes();
+        if (attrs != null) {
+            for (int i = 0; i < attrs.getLength(); i++) {
+                Node attr = attrs.item(i);
+                String attrName = attr.getNodeName();
+                String attrValue = attr.getNodeValue().trim();
+
+                if (attrName.startsWith("xmlns") || attrName.startsWith("xsi:")
+                        || attrName.equals("classCode") || attrName.equals("typeCode")
+                        || attrName.equals("determinerCode") || attrName.equals("moodCode")) {
+                    continue;
+                }
+
+                if (!attrValue.isBlank()) {
+                    String attrPath = newClean + "_" + attrName;
+                    FlattenedField field = new FlattenedField();
+                    field.setOriginalPath(newOriginal + "_" + attrName);
+                    field.setCleanPath(attrPath);
+                    field.setValue(attrValue);
+                    field.setType(classify(attrPath));
+                    fields.add(field);
+                }
+            }
+        }
 
         List<Node> children = collectElementChildren(node);
 
@@ -137,7 +161,9 @@ public class XmlFlattener {
     }
 
     private String getLastSegment(String path) {
-        if (path.isBlank()) return "";
+        if (path.isBlank()) {
+            return "";
+        }
         int idx = path.lastIndexOf('_');
         return idx == -1 ? path : path.substring(idx + 1);
     }
@@ -156,36 +182,53 @@ public class XmlFlattener {
     }
 
     private String sanitizeNodeName(String nodeName) {
-        if (nodeName == null) return "";
+        if (nodeName == null) {
+            return "";
+        }
         int colon = nodeName.indexOf(':');
         return colon >= 0 ? nodeName.substring(colon + 1) : nodeName;
     }
 
     private FieldType classify(String path) {
         String lower = path.toLowerCase();
-        if (lower.startsWith("patient_") && (lower.contains("id") || lower.contains("family") || lower.contains("given"))) {
+        if (lower.contains("id") || lower.contains("isikukood") ||
+                lower.contains("family") || lower.contains("given")) {
             return FieldType.DIRECT_IDENTIFIER;
         }
-        if (lower.startsWith("patient_") && (lower.contains("address") || lower.contains("birth") || lower.contains("gender"))) {
-            return FieldType.QUASI_IDENTIFIER;
-        }
-        if (lower.startsWith("author_") || lower.startsWith("organization_")) {
-            return FieldType.SENSITIVE;
-        }
-        if (lower.contains("id") || lower.contains("isikukood") || lower.contains("family") || lower.contains("given")) {
-            return FieldType.DIRECT_IDENTIFIER;
-        }
-        if (lower.contains("birth") || lower.contains("gender") || lower.contains("address") ||
+
+        if (lower.contains("gender") || lower.contains("birthdate") || lower.contains("birth") ||
+                lower.contains("address") || lower.contains("addr") ||
                 lower.contains("county") || lower.contains("city") || lower.contains("postal")) {
             return FieldType.QUASI_IDENTIFIER;
         }
-        if (lower.contains("diagnosis") || lower.contains("analysis") || lower.contains("medication") || lower.contains("code")) {
+
+        if (lower.contains("code") || lower.contains("codesystem")) {
+            if (lower.contains("codeSystem") || lower.contains("codesystemname") ||
+                    lower.contains("displayname") || lower.endsWith("_code")) {
+
+                if (lower.contains("value_code") || lower.contains("diagnosis") ||
+                        lower.contains("medication") || lower.contains("procedure")) {
+                    return FieldType.SENSITIVE;
+                }
+                return FieldType.INSENSITIVE_ATTRIBUTE;
+            }
+        }
+
+        if (lower.contains("diagnosis") || lower.contains("analysis") ||
+                lower.contains("medication")) {
             return FieldType.SENSITIVE;
         }
+
+        if (lower.startsWith("author_") || lower.startsWith("organization_") ||
+                lower.startsWith("custodian_")) {
+            return FieldType.SENSITIVE;
+        }
+
         if (lower.contains("text") || lower.contains("content") || lower.contains("paragraph") ||
                 lower.contains("table") || lower.contains("title")) {
             return FieldType.NARRATIVE;
         }
+
         return FieldType.UNKNOWN;
     }
 }

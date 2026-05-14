@@ -2,3 +2,4 @@ app:
   arx:
     k: 2
     suppression-limit: 0.05
+    l: 2
