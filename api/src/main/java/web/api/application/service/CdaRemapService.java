@@ -212,14 +212,22 @@ public class CdaRemapService {
 
     private List<FlattenedField> filterStructuredFields(List<FlattenedField> fields) {
         return fields.stream()
-                .filter(f -> f.getType() != FieldType.UNKNOWN && f.getType() != FieldType.NARRATIVE)
+                .filter(f -> isStructured(f.getType()))
                 .toList();
     }
 
     private List<FlattenedField> filterNarrativeFields(List<FlattenedField> fields) {
         return fields.stream()
-                .filter(f -> f.getType() == FieldType.NARRATIVE)
+                .filter(f -> isNarrative(f.getType()))
                 .toList();
+    }
+
+    private boolean isStructured(FieldType type) {
+        return type != FieldType.NARRATIVE && type != FieldType.UNKNOWN;
+    }
+
+    private boolean isNarrative(FieldType type) {
+        return type == FieldType.NARRATIVE || type == FieldType.UNKNOWN;
     }
 
     private FieldResponse mapToFieldResponse(FlattenedField field) {

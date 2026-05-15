@@ -62,11 +62,11 @@ public class ArxRiskAssessmentService {
         RiskEstimateBuilder builder = handle.getRiskEstimator(population);
         RiskModelSampleRisks prosecutorRisk = builder.getSampleBasedReidentificationRisk();
         RiskModelSampleUniqueness journalistRisk = builder.getSampleBasedUniquenessRisk();
-        double marketerRisk = prosecutorRisk.getAverageRisk();
+        prosecutorRisk.getAverageRisk();
         RiskModelSampleSummary summary = builder.getSampleBasedRiskSummary(0.2d); // 20% threshold
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        baos.write(0xEF); baos.write(0xBB); baos.write(0xBF); // Write BOM
+        baos.write(0xEF); baos.write(0xBB); baos.write(0xBF);
 
         try (OutputStreamWriter osw = new OutputStreamWriter(baos, StandardCharsets.UTF_8);
              CSVWriter writer = new CSVWriter(osw)) {

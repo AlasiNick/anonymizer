@@ -229,6 +229,7 @@ public class XmlFlattener {
             return FieldType.NARRATIVE;
         }
 
+        System.out.println("UNKNOWN field type for path: " + path);
         return FieldType.UNKNOWN;
     }
 }
