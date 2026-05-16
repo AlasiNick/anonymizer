@@ -1,19 +1,22 @@
-@use 'sass:color';
-@use './variables' as v;
-@use './mixins' as m;
-@use './utilities' as u;
-@use './components' as c;
+@use "sass:color";
+@use "./variables" as v;
+@use "./mixins" as m;
+@use "./utilities" as u;
+@use "./components" as c;
 
-@forward './variables';
-@forward './mixins';
-@forward './utilities';
-@forward './components';
+@forward "./variables";
+@forward "./mixins";
+@forward "./utilities";
+@forward "./components";
 
-// Global styles
+@import url("https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap");
+
 body {
-  font-family: v.$primary-font;
+  font-family: v.$font-body;
   font-size: v.$font-size-base;
-  color: v.$text-color;
+  color: v.$text-primary;
+  background-color: v.$surface-0;
   margin: 0;
   padding: 0;
-} 
+  -webkit-font-smoothing: antialiased;
+}

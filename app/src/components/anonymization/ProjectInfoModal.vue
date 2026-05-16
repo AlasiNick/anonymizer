@@ -13,7 +13,15 @@
         placeholder="Project Description"
         class="modal-textarea"
       ></textarea>
-      <button class="confirm-btn" @click="$emit('confirm', { name: projectName, description: projectDescription })">
+      <button
+        class="confirm-btn"
+        @click="
+          $emit('confirm', {
+            name: projectName,
+            description: projectDescription,
+          })
+        "
+      >
         Create Project
       </button>
     </div>
@@ -22,27 +30,27 @@
 
 <script>
 export default {
-  name: 'ProjectInfoModal',
+  name: "ProjectInfoModal",
   props: {
     show: {
       type: Boolean,
-      required: true
+      required: true,
     },
     initialName: {
       type: String,
-      default: ''
+      default: "",
     },
     initialDescription: {
       type: String,
-      default: ''
-    }
+      default: "",
+    },
   },
-  emits: ['close', 'confirm'],
+  emits: ["close", "confirm"],
   data() {
     return {
       projectName: this.initialName,
-      projectDescription: this.initialDescription
-    }
+      projectDescription: this.initialDescription,
+    };
   },
   watch: {
     initialName(newVal) {
@@ -50,9 +58,9 @@ export default {
     },
     initialDescription(newVal) {
       this.projectDescription = newVal;
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -99,7 +107,7 @@ export default {
 }
 
 .confirm-btn {
-  background: #3865F2;
+  background: #3865f2;
   color: white;
   border: none;
   border-radius: 8px;
@@ -110,7 +118,7 @@ export default {
   transition: all 0.3s ease;
 
   &:hover {
-    background: #2851D8;
+    background: #2851d8;
   }
 }
 </style>
