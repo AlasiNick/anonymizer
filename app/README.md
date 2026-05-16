@@ -32,10 +32,10 @@ pnpm dev
 | --------------------------- | -------------------------------- |
 | ![EN](photos/main_page.png) | ![EST](photos/main_page_est.png) |
 
-## Pseudonymization Page:
+## Anonymization Page with No File Added:
 
 ![Anonymization Page No File](photos/anonym_page_nofile.png)
 
-## Pseudonymization Page:
+## Anonymization Page with File Added:
 
 ![Anonymization Page With File](photos/anonym_page_file.png)
