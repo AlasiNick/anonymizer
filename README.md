@@ -38,7 +38,7 @@ https://github.com/microsoft/presidio
 
 ## Architecture Overview
 ### CDA XML:
-![Hybrid anonymization pipeline](app/photos/Hybrid anonymization pipeline.png)
+![Hybrid anonymization pipeline](app/photos/hybrid_anonymization_pipeline.png)
 
 ## Thesis
 GDPR‑Compliant Anonymization of HL7 CDA Health Data in Estonia:  A Hybrid Approach Using ARX and AI‑Based De‑identification
