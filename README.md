@@ -37,7 +37,7 @@ Presidio must be added manually from the official repository:
 https://github.com/microsoft/presidio
 
 ## Architecture Overview
-### CDA XML:
+### Hybrid anonymization pipeline:
 ![Hybrid anonymization pipeline](app/photos/hybrid_anonymization_pipeline.png)
 
 ## Thesis
