@@ -36,15 +36,7 @@ https://github.com/microsoft/presidio
 
 ## Architecture Overview
 ### CDA XML:
-  a. Structured fields → ARX CSV anonymization  
-  b. Narrative text → Presidio PII detection  
-  c. Merge → Unified anonymized dataset → ARX risk assessment  
-
-- CDA parsed using XSD‑aware logic  
-- Structured → ARX  
-- Unstructured → Presidio  
-- Outputs merged  
-- Final GDPR risk evaluation performed
+![Hybrid anonymization pipeline](app/photos/Hybrid anonymization pipeline.png)
 
 ## Thesis
 GDPR‑Compliant Anonymization of HL7 CDA Health Data in Estonia:  A Hybrid Approach Using ARX and AI‑Based De‑identification
