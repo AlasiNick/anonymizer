@@ -20,10 +20,12 @@ The system is designed to support ```GDPR‑compliant de‑identification``` of 
 ### Customer Gateway
 ```Spring Boot 4.0.5```
 ```Java 25```
+```Gradle```
 
 ### ARX Anonymization Service
 ```Spring Boot 3.5.10```
 ```Java 21```
+```Maven```
 ```ARX 3.9.2```
 
 ### Frontend
